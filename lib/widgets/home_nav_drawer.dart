@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/constants.dart';
 import 'package:notes_app/widgets/about_section.dart';
 
 class HomeNavDrawer extends StatefulWidget {
@@ -31,7 +32,7 @@ class _HomeNavDrawerState extends State<HomeNavDrawer> {
             ),
             Divider(
               thickness: 1.0,
-              color: Colors.white60,
+              color: kDarkThemeWhiteGrey,
             ),
             SwitchListTile(
               value: isDarkThemeOn,
@@ -50,7 +51,7 @@ class _HomeNavDrawerState extends State<HomeNavDrawer> {
             ),
             Divider(
               thickness: 1.0,
-              color: Colors.white60,
+              color: kDarkThemeWhiteGrey,
             ),
             AboutSection()
           ],
