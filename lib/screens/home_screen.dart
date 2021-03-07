@@ -85,37 +85,35 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  StaggeredTile getStaggeredTile(int index) {
-    /// Need to decide the grid tile length based on text length.
-    /// The current layout looks good for 7 lines of text.
-    /// Max extent for 7 lines is 2.2 and min for 1 line is 0.95
-    double linesByCharCount = notes.getNote(index).noteContent.length /
-        22; // This is the number of lines that the note is expected to occupy.
-    int expectedLinesToOccupy = ((linesByCharCount * 100).toInt() % 100) <= 40
-        ? linesByCharCount.floor()
-        : linesByCharCount.ceil();
-
-    // final textSpan = TextSpan(text: notes[index], style: kNoteBoxNoteStyle);
-    // final textPainter =
-    //     TextPainter(text: textSpan, textDirection: TextDirection.ltr);
-    // textPainter.layout(maxWidth: widgetContext.size.width);
-    // print(textPainter.computeLineMetrics().length);
-
-    print(
-        'GridView Log - Index: $index, Length/22: $expectedLinesToOccupy, exact: $linesByCharCount');
-
-    return StaggeredTile.fit(2);
-
-    if (expectedLinesToOccupy == 1) return StaggeredTile.count(2, 0.88);
-    if (expectedLinesToOccupy == 2) return StaggeredTile.count(2, 1.08);
-    if (expectedLinesToOccupy == 3) return StaggeredTile.count(2, 1.18);
-    if (expectedLinesToOccupy == 4) return StaggeredTile.count(2, 1.20);
-    if (expectedLinesToOccupy == 5) return StaggeredTile.count(2, 1.5);
-    if (expectedLinesToOccupy == 6) return StaggeredTile.count(2, 1.68);
-    if (expectedLinesToOccupy == 7) return StaggeredTile.count(2, 1.85);
-
-    return StaggeredTile.count(2, 2.05); // If lines more than 7
-  }
+  // StaggeredTile getStaggeredTile(int index) {
+  //   /// Need to decide the grid tile length based on text length.
+  //   /// The current layout looks good for 7 lines of text.
+  //   /// Max extent for 7 lines is 2.2 and min for 1 line is 0.95
+  //   double linesByCharCount = notes.getNote(index).noteContent.length /
+  //       22; // This is the number of lines that the note is expected to occupy.
+  //   int expectedLinesToOccupy = ((linesByCharCount * 100).toInt() % 100) <= 40
+  //       ? linesByCharCount.floor()
+  //       : linesByCharCount.ceil();
+  //
+  //   // final textSpan = TextSpan(text: notes[index], style: kNoteBoxNoteStyle);
+  //   // final textPainter =
+  //   //     TextPainter(text: textSpan, textDirection: TextDirection.ltr);
+  //   // textPainter.layout(maxWidth: widgetContext.size.width);
+  //   // print(textPainter.computeLineMetrics().length);
+  //
+  //   print(
+  //       'GridView Log - Index: $index, Length/22: $expectedLinesToOccupy, exact: $linesByCharCount');
+  //
+  //   if (expectedLinesToOccupy == 1) return StaggeredTile.count(2, 0.88);
+  //   if (expectedLinesToOccupy == 2) return StaggeredTile.count(2, 1.08);
+  //   if (expectedLinesToOccupy == 3) return StaggeredTile.count(2, 1.18);
+  //   if (expectedLinesToOccupy == 4) return StaggeredTile.count(2, 1.20);
+  //   if (expectedLinesToOccupy == 5) return StaggeredTile.count(2, 1.5);
+  //   if (expectedLinesToOccupy == 6) return StaggeredTile.count(2, 1.68);
+  //   if (expectedLinesToOccupy == 7) return StaggeredTile.count(2, 1.85);
+  //
+  //   return StaggeredTile.count(2, 2.05); // If lines more than 7
+  // }
 
   @override
   void initState() {
@@ -164,37 +162,37 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: StaggeredGridView.countBuilder(
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  crossAxisCount: 4,
-                  itemCount: notes.notesCount,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) => Hero(
-                        tag: 'note_box_$index',
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (builder) => NoteScreen(
-                                  heroTag: 'note_box_$index',
-                                  note: notes.getNote(index).copy(),
-                                  deleteNoteCallback: deleteNote,
-                                  saveNoteCallback: saveNote,
-                                  noteIndex: index,
-                                ),
-                              ),
-                            );
-                          },
-                          child: NoteBox(
-                            title: notes.getNote(index).noteTitle,
-                            text: notes.getNote(index).noteContent,
-                            labelColor:
-                                kLabelToColor[notes.getNote(index).noteLabel],
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                crossAxisCount: 4,
+                itemCount: notes.notesCount,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) => Hero(
+                  tag: 'note_box_$index',
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (builder) => NoteScreen(
+                            heroTag: 'note_box_$index',
+                            note: notes.getNote(index).copy(),
+                            deleteNoteCallback: deleteNote,
+                            saveNoteCallback: saveNote,
+                            noteIndex: index,
                           ),
                         ),
-                      ),
-                  staggeredTileBuilder: getStaggeredTile),
+                      );
+                    },
+                    child: NoteBox(
+                      title: notes.getNote(index).noteTitle,
+                      text: notes.getNote(index).noteContent,
+                      labelColor: kLabelToColor[notes.getNote(index).noteLabel],
+                    ),
+                  ),
+                ),
+                staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
+              ),
             ),
           ],
         ),

@@ -41,6 +41,7 @@ class _NoteScreenState extends State<NoteScreen> {
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -70,28 +71,40 @@ class _NoteScreenState extends State<NoteScreen> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                child: Hero(
-                  tag: this.widget.heroTag,
-                  child: NoteWritingSection(
-                    note: widget.note,
-                    editNoteTitleCallback: editNoteTitle,
-                    editNoteContentCallback: editNoteContent,
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: deviceHeight -
+                  (MediaQuery.of(context).padding.top + kToolbarHeight),
+            ),
+            child: IntrinsicHeight(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: deviceHeight * 0.02,
+                          vertical: deviceWidth * 0.015),
+                      child: Hero(
+                        tag: this.widget.heroTag,
+                        child: NoteWritingSection(
+                          note: widget.note,
+                          editNoteTitleCallback: editNoteTitle,
+                          editNoteContentCallback: editNoteContent,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  BottomNoteOptions(
+                    deviceHeight: deviceHeight,
+                    note: widget.note,
+                    deleteNoteCallback: widget.deleteNoteCallback,
+                  )
+                ],
               ),
             ),
-            BottomNoteOptions(
-              deviceHeight: deviceHeight,
-              note: widget.note,
-              deleteNoteCallback: widget.deleteNoteCallback,
-            )
-          ],
+          ),
         ),
       ),
     );

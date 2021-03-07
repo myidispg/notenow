@@ -45,7 +45,6 @@ class _NoteWritingSectionState extends State<NoteWritingSection> {
           borderRadius: BorderRadius.circular(6),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           children: [
             TextField(
               controller: _titleController,

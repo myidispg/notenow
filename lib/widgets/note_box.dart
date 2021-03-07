@@ -14,6 +14,7 @@ class NoteBox extends StatelessWidget {
       elevation: 4,
       borderRadius: BorderRadius.circular(6),
       child: Container(
+        clipBehavior: Clip.antiAlias,
         padding: EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey, width: 0.5),
@@ -36,12 +37,16 @@ class NoteBox extends StatelessWidget {
                         color: labelColor,
                         size: 14,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6),
-                        child: Text(this.title ?? "Note",
-                            style: kNoteBoxNoteStyle,
-                            overflow: TextOverflow.ellipsis),
-                      )
+                      Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 6),
+                          child: Text(this.title ?? "Note",
+                              maxLines: 1,
+                              style: kNoteBoxNoteStyle,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.start),
+                        ),
+                      ),
                     ],
                   ),
                 ),
