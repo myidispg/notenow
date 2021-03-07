@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
 
 class FloatingSearchBar extends StatelessWidget {
-  const FloatingSearchBar({
-    Key key,
-    @required GlobalKey<ScaffoldState> scaffoldKey,
-  })  : _scaffoldKey = scaffoldKey,
-        super(key: key);
-
   final GlobalKey<ScaffoldState> _scaffoldKey;
+
+  FloatingSearchBar({
+    required GlobalKey<ScaffoldState> scaffoldKey,
+  }) : _scaffoldKey = scaffoldKey;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,7 @@ class FloatingSearchBar extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  _scaffoldKey.currentState.openDrawer();
+                  _scaffoldKey.currentState?.openDrawer();
                 },
                 child: Icon(Icons.menu, size: kIconSize),
               ),

@@ -3,10 +3,6 @@ import 'package:notes_app/constants.dart';
 import 'package:notes_app/widgets/about_section.dart';
 
 class HomeNavDrawer extends StatefulWidget {
-  const HomeNavDrawer({
-    Key key,
-  }) : super(key: key);
-
   @override
   _HomeNavDrawerState createState() => _HomeNavDrawerState();
 }

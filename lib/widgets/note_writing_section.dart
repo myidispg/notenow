@@ -1,19 +1,36 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
+import 'package:notes_app/models/note.dart';
 
+// ignore: must_be_immutable
 class NoteWritingSection extends StatefulWidget {
-  const NoteWritingSection({
-    Key key,
-  }) : super(key: key);
+  /// This will be a reference to whatever note object is in use.
+  /// Any changes to this will reflect in the parent too.
+  Note note;
+  Function? editNoteTitleCallback;
+  Function? editNoteContentCallback;
+
+  NoteWritingSection(
+      {required this.note,
+      this.editNoteTitleCallback,
+      this.editNoteContentCallback});
 
   @override
   _NoteWritingSectionState createState() => _NoteWritingSectionState();
 }
 
 class _NoteWritingSectionState extends State<NoteWritingSection> {
-  String noteContent;
-  String noteTitle;
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _contentController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController.text = widget.note.noteTitle ?? "";
+    _contentController.text = widget.note
+        .noteContent; // Any note object here will always have some content.
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +48,7 @@ class _NoteWritingSectionState extends State<NoteWritingSection> {
           mainAxisSize: MainAxisSize.max,
           children: [
             TextField(
+              controller: _titleController,
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
@@ -49,18 +67,26 @@ class _NoteWritingSectionState extends State<NoteWritingSection> {
               style: TextStyle(color: Colors.white, fontSize: 24),
               keyboardType: TextInputType.name,
               onChanged: (value) {
-                noteTitle = value;
-                print("Title: $noteTitle");
+                // widget.title = value;
+                widget.note.noteTitle = value;
+                // widget.editNoteTitleCallback!(value);
+                print("Title: ${widget.note.noteTitle}");
               },
             ),
             Expanded(
               child: TextField(
-                decoration: InputDecoration(border: InputBorder.none),
+                controller: _contentController,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Note",
+                ),
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 onChanged: (value) {
-                  noteContent = value;
-                  print("Note: $noteContent");
+                  // widget.content = value;
+                  widget.note.noteContent = value;
+                  // widget.editNoteContentCallback!(value);
+                  print("Note: ${widget.note.noteContent}");
                 },
               ),
             )

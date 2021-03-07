@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:notes_app/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -81,11 +80,16 @@ class AboutSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SvgPicture.asset(
-                'assets/icons/flutter.svg',
+              Image.asset(
+                "assets/icons/flutter.png",
                 width: 30,
                 height: 30,
               ),
+              // SvgPicture.asset(
+              //   'assets/icons/flutter.svg',
+              //   width: 30,
+              //   height: 30,
+              // ),
               SizedBox(
                 width: deviceWidth * 0.04,
               ),

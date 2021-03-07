@@ -1,12 +1,42 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
+import 'package:notes_app/models/note.dart';
 import 'package:notes_app/widgets/note_writing_section.dart';
 
-class NoteScreen extends StatelessWidget {
-  final heroTag;
+// ignore: must_be_immutable
+class NoteScreen extends StatefulWidget {
+  final String heroTag;
+  Note note;
+  final Function? deleteNoteCallback;
+  final Function saveNoteCallback;
+  final int? noteIndex;
 
-  const NoteScreen({Key key, this.heroTag = 'note_box'}) : super(key: key);
+  NoteScreen(
+      {required this.note,
+      this.deleteNoteCallback,
+      required this.saveNoteCallback,
+      this.noteIndex,
+      this.heroTag = 'note_box'});
+
+  @override
+  _NoteScreenState createState() => _NoteScreenState();
+}
+
+class _NoteScreenState extends State<NoteScreen> {
+  void editNoteTitle(String newTitle) {
+    /// This is a callback that allows the NoteWritingScreen to edit the note
+    /// object in this class.
+    widget.note.noteTitle = newTitle;
+    print("Inside main note screen title: $newTitle");
+  }
+
+  void editNoteContent(String newContent) {
+    /// This is a callback that allows the NoteWritingScreen to edit the note
+    /// object in this class.
+    widget.note.noteContent = newContent;
+    print("Inside main note screen content: $newContent");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +51,20 @@ class NoteScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.check),
             onPressed: () {
-              Navigator.pop(context);
+              // Every new note must have some content.
+              if (widget.note.noteContent != "") {
+                if (widget.noteIndex == null)
+                  // New note is being created.
+                  widget.saveNoteCallback(widget.note);
+                else
+                  // Note is edited. Tell the index too.
+                  widget.saveNoteCallback(widget.note, widget.noteIndex);
+                Navigator.pop(context);
+              } else {
+                // Scaffold.of(context).showSnackBar(snackbar)
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Please enter some content for the note.")));
+              }
             },
           )
         ],
@@ -34,12 +77,20 @@ class NoteScreen extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                 child: Hero(
-                  tag: this.heroTag,
-                  child: NoteWritingSection(),
+                  tag: this.widget.heroTag,
+                  child: NoteWritingSection(
+                    note: widget.note,
+                    editNoteTitleCallback: editNoteTitle,
+                    editNoteContentCallback: editNoteContent,
+                  ),
                 ),
               ),
             ),
-            BottomNoteOptions(deviceHeight: deviceHeight)
+            BottomNoteOptions(
+              deviceHeight: deviceHeight,
+              note: widget.note,
+              deleteNoteCallback: widget.deleteNoteCallback,
+            )
           ],
         ),
       ),
@@ -48,10 +99,13 @@ class NoteScreen extends StatelessWidget {
 }
 
 class BottomNoteOptions extends StatelessWidget {
-  const BottomNoteOptions({
-    Key key,
-    @required this.deviceHeight,
-  }) : super(key: key);
+  final Note note;
+  final Function? deleteNoteCallback;
+
+  BottomNoteOptions(
+      {required this.deviceHeight,
+      required this.note,
+      required this.deleteNoteCallback});
 
   final double deviceHeight;
 
@@ -64,7 +118,10 @@ class BottomNoteOptions extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           IconButton(
-            icon: Icon(Icons.star),
+            icon: Icon(
+              Icons.star,
+              color: kLabelToColor[note.noteLabel],
+            ),
             iconSize: 28,
             onPressed: () {
               Navigator.pop(context);
@@ -81,6 +138,8 @@ class BottomNoteOptions extends StatelessWidget {
             icon: Icon(Icons.delete_outline),
             iconSize: 28,
             onPressed: () {
+              // Remove note only if it has some content.
+              this.deleteNoteCallback?.call(note);
               Navigator.pop(context);
             },
           ),

@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
 
 class NoteBox extends StatelessWidget {
-  final Color labelColor;
+  Color? labelColor;
   final text;
-  final title;
+  final String? title;
 
-  const NoteBox(
-      {Key key,
-      this.labelColor = Colors.purpleAccent,
-      this.text,
-      this.title = "Note"})
-      : super(key: key);
+  NoteBox({required this.labelColor, required this.text, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +38,9 @@ class NoteBox extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 6),
-                        child: Text(
-                          this.title,
-                          style: kNoteBoxNoteStyle,
-                        ),
+                        child: Text(this.title ?? "Note",
+                            style: kNoteBoxNoteStyle,
+                            overflow: TextOverflow.ellipsis),
                       )
                     ],
                   ),
