@@ -8,6 +8,7 @@ import 'package:notes_app/screens/note_screen.dart';
 import 'package:notes_app/widgets/floating_search_bar.dart';
 import 'package:notes_app/widgets/home_nav_drawer.dart';
 import 'package:notes_app/widgets/note_box.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,69 +18,70 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Notes notes = Notes();
+  NotesModel notes = NotesModel();
 
-  void initNotes() {
-    /// Creates a repository of dummy notes. The repository is empty be default.
-    List<Note> notesData = [
-      Note(title: "Note 1", content: "1Lorem Ipsum is simply "),
-      Note(
-          title: "Note 2",
-          content: "2Lorem Ipsum is simply dummy text of the ",
-          label: 2),
-      Note(
-          title: "Note 3",
-          content:
-              "3Lorem Ipsum is simply dummy text of the printing and typesetting ",
-          label: 3),
-      Note(
-          title: "Note 4",
-          content:
-              "4Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-          label: 4),
-      Note(
-          title: "Note 5",
-          content:
-              "5Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-          label: 5),
-      Note(
-          title: "Note 6",
-          content:
-              "6Lorem Ipsum is simply dummy text of the printing and \ntypesetting industry. Lorem Ipsum has been \n\n\n\nthe industry's standard dummy text ",
-          label: 6),
-      Note(
-          title: "Note 7",
-          content:
-              "7Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
-          label: 7),
-      Note(
-          title: "Note 8",
-          content:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          label: 3),
-      Note(
-          title: "Note 9",
-          content:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          label: 4),
-      Note(
-          title: "Note 10",
-          content:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          label: 1),
-    ];
-    notesData.forEach((element) {
-      notes.saveNote(element);
-    });
-  }
+  // void initNotes(BuildContext context) {
+  //   /// Creates a repository of dummy notes. The repository is empty be default.
+  //   List<NoteModel> notesData = [
+  //     NoteModel(title: "Note 1", content: "1Lorem Ipsum is simply "),
+  //     NoteModel(
+  //         title: "Note 2",
+  //         content: "2Lorem Ipsum is simply dummy text of the ",
+  //         label: 1),
+  //     NoteModel(
+  //         title: "Note 3",
+  //         content:
+  //             "3Lorem Ipsum is simply dummy text of the printing and typesetting ",
+  //         label: 2),
+  //     NoteModel(
+  //         title: "Note 4",
+  //         content:
+  //             "4Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+  //         label: 3),
+  //     NoteModel(
+  //         title: "Note 5",
+  //         content:
+  //             "5Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+  //         label: 4),
+  //     NoteModel(
+  //         title: "Note 6",
+  //         content:
+  //             "6Lorem Ipsum is simply dummy text of the printing and \ntypesetting industry. Lorem Ipsum has been \n\n\n\nthe industry's standard dummy text ",
+  //         label: 5),
+  //     NoteModel(
+  //         title: "Note 7",
+  //         content:
+  //             "7Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
+  //         label: 6),
+  //     NoteModel(
+  //         title: "Note 8",
+  //         content:
+  //             "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  //         label: 7),
+  //     NoteModel(
+  //         title: "Note 9",
+  //         content:
+  //             "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  //         label: 8),
+  //     NoteModel(
+  //         title: "Note 10",
+  //         content:
+  //             "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  //         label: 1),
+  //   ];
+  //   notesData.forEach((element) {
+  //     Provider.of<NotesModel>(context).saveNote(element);
+  //     // notes.saveNote(element);
+  //   });
+  // }
 
-  void deleteNote(Note note) {
+  void deleteNote(NoteModel note) {
     setState(() {
       notes.deleteNote(note: note);
     });
   }
 
-  void saveNote(Note note, [int noteIndex = -1]) {
+  void saveNote(NoteModel note, [int noteIndex = -1]) {
     setState(() {
       notes.saveNote(note, noteIndex);
     });
@@ -116,13 +118,14 @@ class _HomeScreenState extends State<HomeScreen> {
   // }
 
   @override
-  void initState() {
-    super.initState();
-    initNotes();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<NotesModel>(context).buildDummyData();
   }
 
   @override
   Widget build(BuildContext context) {
+    // initNotes(context);
     return Scaffold(
       key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
@@ -134,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => NoteScreen(
-                note: Note(content: ""),
+                // note: NoteModel(content: ""),
                 saveNoteCallback: saveNote,
               ),
             ),
@@ -161,37 +164,41 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 10,
             ),
             Expanded(
-              child: StaggeredGridView.countBuilder(
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                crossAxisCount: 4,
-                itemCount: notes.notesCount,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) => Hero(
-                  tag: 'note_box_$index',
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (builder) => NoteScreen(
-                            heroTag: 'note_box_$index',
-                            note: notes.getNote(index).copy(),
-                            deleteNoteCallback: deleteNote,
-                            saveNoteCallback: saveNote,
-                            noteIndex: index,
-                          ),
+              child: Consumer<NotesModel>(
+                builder: (context, notes, child) {
+                  return StaggeredGridView.countBuilder(
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    crossAxisCount: 4,
+                    itemCount: notes.notesCount,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) => Hero(
+                      tag: 'note_box_$index',
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (builder) => NoteScreen(
+                                // note: notes.getNote(index).copy(),
+                                deleteNoteCallback: deleteNote,
+                                saveNoteCallback: saveNote,
+                                noteIndex: index,
+                              ),
+                            ),
+                          );
+                        },
+                        child: NoteBox(
+                          title: notes.getNote(index).noteTitle,
+                          text: notes.getNote(index).noteContent,
+                          labelColor:
+                              kLabelToColor[notes.getNote(index).noteLabel],
                         ),
-                      );
-                    },
-                    child: NoteBox(
-                      title: notes.getNote(index).noteTitle,
-                      text: notes.getNote(index).noteContent,
-                      labelColor: kLabelToColor[notes.getNote(index).noteLabel],
+                      ),
                     ),
-                  ),
-                ),
-                staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
+                    staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
+                  );
+                },
               ),
             ),
           ],

@@ -7,7 +7,7 @@ import 'package:notes_app/models/note.dart';
 class NoteWritingSection extends StatefulWidget {
   /// This will be a reference to whatever note object is in use.
   /// Any changes to this will reflect in the parent too.
-  Note note;
+  NoteModel note;
   Function? editNoteTitleCallback;
   Function? editNoteContentCallback;
 

@@ -18,11 +18,13 @@ const kNoteBoxNoteStyle = TextStyle(
     letterSpacing: 1.1);
 
 const Map<int, Color> kLabelToColor = {
-  1: Colors.lightBlueAccent,
-  2: Colors.redAccent,
-  3: Colors.purpleAccent,
-  4: Colors.greenAccent,
-  5: Colors.yellowAccent,
-  6: Colors.blueAccent,
-  7: Colors.orangeAccent
+  0: Colors.lightBlueAccent,
+  1: Colors.redAccent,
+  2: Colors.purpleAccent,
+  3: Colors.greenAccent,
+  4: Colors.yellowAccent,
+  5: Colors.blueAccent,
+  6: Colors.orangeAccent,
+  7: Colors.pinkAccent,
+  8: Colors.tealAccent
 };
