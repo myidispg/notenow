@@ -55,57 +55,57 @@ class _NoteScreenState extends State<NoteScreen> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: kDarkThemeBackgroundColor,
-        title: Text("Your note"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.check),
-            onPressed: () {
-              // Every new note must have some content.
-              if (_note.noteContent != "") {
-                if (widget.noteIndex == null)
-                  // New note is being created.
-                  Provider.of<NotesModel>(context, listen: false)
-                      .saveNote(_note);
-                else
-                  // Note is edited. Tell the index too.
-                  Provider.of<NotesModel>(context, listen: false)
-                      .saveNote(_note, widget.noteIndex!);
-                Navigator.pop(context);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("Please enter some content for the note."),
-                  ),
-                );
-              }
-            },
-          )
-        ],
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: deviceHeight -
-                  (MediaQuery.of(context).padding.top + kToolbarHeight),
-            ),
-            child: IntrinsicHeight(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: deviceHeight * 0.02,
-                          vertical: deviceWidth * 0.015),
-                      child: Hero(
-                        tag: widget.noteIndex != null
-                            ? 'note_box_${widget.noteIndex}'
-                            : 'note_box',
+    return Hero(
+      tag: widget.noteIndex != null
+          ? 'note_box_${widget.noteIndex}'
+          : 'note_box',
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: kDarkThemeBackgroundColor,
+          title: Text("Your note"),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.check),
+              onPressed: () {
+                // Every new note must have some content.
+                if (_note.noteContent != "") {
+                  if (widget.noteIndex == null)
+                    // New note is being created.
+                    Provider.of<NotesModel>(context, listen: false)
+                        .saveNote(_note);
+                  else
+                    // Note is edited. Tell the index too.
+                    Provider.of<NotesModel>(context, listen: false)
+                        .saveNote(_note, widget.noteIndex!);
+                  Navigator.pop(context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Please enter some content for the note."),
+                    ),
+                  );
+                }
+              },
+            )
+          ],
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: deviceHeight -
+                    (MediaQuery.of(context).padding.top + kToolbarHeight),
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: deviceHeight * 0.02,
+                            vertical: deviceWidth * 0.015),
                         child: NoteWritingSection(
                           startingTitle: _note.noteTitle,
                           startingContent: _note.noteContent,
@@ -114,19 +114,19 @@ class _NoteScreenState extends State<NoteScreen> {
                         ),
                       ),
                     ),
-                  ),
-                  BottomNoteOptions(
-                    deviceHeight: deviceHeight,
-                    deviceWidth: deviceWidth,
-                    note: _note,
-                    deleteNoteCallback: () {
-                      if (widget.noteIndex != null)
-                        Provider.of<NotesModel>(context, listen: false)
-                            .deleteNote(note: _note);
-                      Navigator.pop(context);
-                    },
-                  )
-                ],
+                    BottomNoteOptions(
+                      deviceHeight: deviceHeight,
+                      deviceWidth: deviceWidth,
+                      note: _note,
+                      deleteNoteCallback: () {
+                        if (widget.noteIndex != null)
+                          Provider.of<NotesModel>(context, listen: false)
+                              .deleteNote(note: _note);
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
           ),

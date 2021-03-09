@@ -82,4 +82,21 @@ class NotesModel extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  List<int> searchNotes(String searchQuery) {
+    /// Search for notes based on the contents/titles of the notes.
+    /// Since the whole rendering of note on NoteScreen is dependant upon
+    /// the index of the note, this method will return a list of indexes
+    /// of the relevant notes. Empty List if no match found.
+
+    List<int> relevantIndexes = [];
+    _notes.asMap().forEach((index, note) {
+      if (note.noteTitle!.contains(searchQuery) ||
+          note.noteContent.contains(searchQuery)) {
+        relevantIndexes.add(index);
+      }
+    });
+
+    return relevantIndexes;
+  }
 }

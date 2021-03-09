@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
+import 'package:notes_app/search_delegate/note_search_class.dart';
 
 class FloatingSearchBar extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey;
@@ -31,9 +32,14 @@ class FloatingSearchBar extends StatelessWidget {
                 },
                 child: Icon(Icons.menu, size: kIconSize),
               ),
-              Text(
-                "Search your notes",
-                style: TextStyle(fontSize: 18, color: kGreyTextColor),
+              GestureDetector(
+                onTap: () {
+                  showSearch(context: context, delegate: NoteSearchClass());
+                },
+                child: Text(
+                  "Search your notes",
+                  style: TextStyle(fontSize: 18, color: kGreyTextColor),
+                ),
               ),
               GestureDetector(
                 child: Icon(Icons.account_circle_sharp,
