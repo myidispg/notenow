@@ -6,6 +6,7 @@ import 'package:notes_app/models/notes.dart';
 import 'package:notes_app/widgets/label_selector_dialog.dart';
 import 'package:notes_app/widgets/note_writing_section.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 // ignore: must_be_immutable
 class NoteScreen extends StatefulWidget {
@@ -47,13 +48,6 @@ class _NoteScreenState extends State<NoteScreen> {
     /// This is a callback that allows the NoteWritingScreen to edit the note
     /// object in this class.
     _note.noteContent = newContent;
-  }
-
-  void editNoteLabel(int newLabel) {
-    /// Callback to change the label of a note.
-    setState(() {
-      _note.noteLabel = newLabel;
-    });
   }
 
   @override
@@ -113,7 +107,6 @@ class _NoteScreenState extends State<NoteScreen> {
                             ? 'note_box_${widget.noteIndex}'
                             : 'note_box',
                         child: NoteWritingSection(
-                          // note: _note,
                           startingTitle: _note.noteTitle,
                           startingContent: _note.noteContent,
                           editNoteTitleCallback: editNoteTitle,
@@ -125,13 +118,13 @@ class _NoteScreenState extends State<NoteScreen> {
                   BottomNoteOptions(
                     deviceHeight: deviceHeight,
                     deviceWidth: deviceWidth,
-                    labelIndex: _note.noteLabel,
-                    // note: _note,
+                    note: _note,
                     deleteNoteCallback: () {
-                      Provider.of<NotesModel>(context, listen: false)
-                          .deleteNote(note: _note);
+                      if (widget.noteIndex != null)
+                        Provider.of<NotesModel>(context, listen: false)
+                            .deleteNote(note: _note);
+                      Navigator.pop(context);
                     },
-                    editLabelCallback: editNoteLabel,
                   )
                 ],
               ),
@@ -144,18 +137,18 @@ class _NoteScreenState extends State<NoteScreen> {
 }
 
 class BottomNoteOptions extends StatefulWidget {
-  int labelIndex;
+  /// This will be a reference to the note object in NoteScreen.
+  /// This allows access to label and content. Content for sharing.
+  NoteModel note;
   final Function? deleteNoteCallback;
-  final Function editLabelCallback;
   final double deviceHeight;
   final double deviceWidth;
 
   BottomNoteOptions(
-      {required this.labelIndex,
+      {required this.note,
       required this.deviceHeight,
       required this.deviceWidth,
-      required this.deleteNoteCallback,
-      required this.editLabelCallback});
+      required this.deleteNoteCallback});
 
   @override
   _BottomNoteOptionsState createState() => _BottomNoteOptionsState();
@@ -166,9 +159,9 @@ class _BottomNoteOptionsState extends State<BottomNoteOptions> {
     /// Callback for the AlertDialog to change label in the
     /// BottomNoteOptions class instance.
     setState(() {
-      widget.labelIndex = newLabelIndex; // Change for this widget.
-      widget.editLabelCallback(
-          newLabelIndex); // Change for the temp notemodel object.
+      /// Since this a reference to note object in NoteScreen,
+      /// changes will reflect there too.
+      widget.note.noteLabel = newLabelIndex;
     });
   }
 
@@ -183,7 +176,7 @@ class _BottomNoteOptionsState extends State<BottomNoteOptions> {
           IconButton(
             icon: Icon(
               Icons.star,
-              color: kLabelToColor[widget.labelIndex],
+              color: kLabelToColor[widget.note.noteLabel],
             ),
             iconSize: 28,
             onPressed: () {
@@ -191,12 +184,11 @@ class _BottomNoteOptionsState extends State<BottomNoteOptions> {
                   context: context,
                   builder: (context) {
                     return LabelSelectorDialog(
-                      selectedLabel: widget.labelIndex,
+                      selectedLabel: widget.note.noteLabel,
                       deviceWidth: widget.deviceWidth,
-                      changeLabelCallback: widget.editLabelCallback,
+                      changeLabelCallback: changeLabelCallback,
                     );
                   });
-              // Navigator.pop(context);
             },
           ),
           IconButton(
@@ -210,16 +202,15 @@ class _BottomNoteOptionsState extends State<BottomNoteOptions> {
             icon: Icon(Icons.delete_outline),
             iconSize: 28,
             onPressed: () {
-              // Remove note only if it has some content.
               this.widget.deleteNoteCallback?.call();
-              Navigator.pop(context);
             },
           ),
           IconButton(
             icon: Icon(Icons.share_outlined),
             iconSize: 28,
             onPressed: () {
-              Navigator.pop(context);
+              Share.share(widget.note.noteContent);
+              // Navigator.pop(context);
             },
           ),
         ],
