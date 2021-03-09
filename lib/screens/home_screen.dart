@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _isDataInitialized = false;
 
   NotesModel notes = NotesModel();
 
@@ -120,7 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Provider.of<NotesModel>(context).buildDummyData();
+    if (!_isDataInitialized) {
+      Provider.of<NotesModel>(context).buildDummyData();
+      _isDataInitialized = true;
+    }
   }
 
   @override
@@ -136,10 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => NoteScreen(
-                // note: NoteModel(content: ""),
-                saveNoteCallback: saveNote,
-              ),
+              builder: (context) => NoteScreen(),
             ),
           );
         },
@@ -180,9 +181,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (builder) => NoteScreen(
-                                // note: notes.getNote(index).copy(),
-                                deleteNoteCallback: deleteNote,
-                                saveNoteCallback: saveNote,
                                 noteIndex: index,
                               ),
                             ),

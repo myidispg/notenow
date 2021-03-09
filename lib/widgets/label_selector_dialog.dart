@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class LabelSelectorDialog extends StatefulWidget {
   final double deviceWidth;
-  int selectedIndex;
+  int selectedLabel;
   final Function changeLabelCallback;
 
   LabelSelectorDialog(
-      {required this.selectedIndex,
+      {required this.selectedLabel,
       required this.deviceWidth,
       required this.changeLabelCallback});
 
@@ -44,7 +44,7 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
                   decoration: BoxDecoration(
                     color: Colors.lightBlueAccent,
                     borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedIndex == 0
+                    border: widget.selectedLabel == 0
                         ? Border.all(color: Colors.blueGrey, width: 5)
                         : null,
                   ),
@@ -62,7 +62,7 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
                   decoration: BoxDecoration(
                     color: Colors.redAccent,
                     borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedIndex == 1
+                    border: widget.selectedLabel == 1
                         ? Border.all(color: Colors.blueGrey, width: 5)
                         : null,
                   ),
@@ -80,7 +80,7 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
                   decoration: BoxDecoration(
                     color: Colors.purpleAccent,
                     borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedIndex == 2
+                    border: widget.selectedLabel == 2
                         ? Border.all(color: Colors.blueGrey, width: 5)
                         : null,
                   ),
@@ -106,7 +106,7 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
                   decoration: BoxDecoration(
                     color: Colors.greenAccent,
                     borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedIndex == 3
+                    border: widget.selectedLabel == 3
                         ? Border.all(color: Colors.blueGrey, width: 5)
                         : null,
                   ),
@@ -124,7 +124,7 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
                   decoration: BoxDecoration(
                     color: Colors.yellowAccent,
                     borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedIndex == 4
+                    border: widget.selectedLabel == 4
                         ? Border.all(color: Colors.blueGrey, width: 5)
                         : null,
                   ),
@@ -142,7 +142,7 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
                   decoration: BoxDecoration(
                     color: Colors.blueAccent,
                     borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedIndex == 5
+                    border: widget.selectedLabel == 5
                         ? Border.all(color: Colors.blueGrey, width: 5)
                         : null,
                   ),
@@ -168,7 +168,7 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
                   decoration: BoxDecoration(
                     color: Colors.orangeAccent,
                     borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedIndex == 6
+                    border: widget.selectedLabel == 6
                         ? Border.all(color: Colors.blueGrey, width: 5)
                         : null,
                   ),
@@ -186,7 +186,7 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
                   decoration: BoxDecoration(
                     color: Colors.pinkAccent,
                     borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedIndex == 7
+                    border: widget.selectedLabel == 7
                         ? Border.all(color: Colors.blueGrey, width: 5)
                         : null,
                   ),
@@ -204,7 +204,7 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
                   decoration: BoxDecoration(
                     color: Colors.tealAccent,
                     borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedIndex == 8
+                    border: widget.selectedLabel == 8
                         ? Border.all(color: Colors.blueGrey, width: 5)
                         : null,
                   ),

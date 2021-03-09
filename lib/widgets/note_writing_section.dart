@@ -1,20 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
-import 'package:notes_app/models/note.dart';
 
 // ignore: must_be_immutable
 class NoteWritingSection extends StatefulWidget {
-  /// This will be a reference to whatever note object is in use.
-  /// Any changes to this will reflect in the parent too.
-  NoteModel note;
-  Function? editNoteTitleCallback;
-  Function? editNoteContentCallback;
+  String? startingTitle;
+  String startingContent;
+  Function editNoteTitleCallback;
+  Function editNoteContentCallback;
 
   NoteWritingSection(
-      {required this.note,
-      this.editNoteTitleCallback,
-      this.editNoteContentCallback});
+      {this.startingTitle,
+      required this.startingContent,
+      required this.editNoteTitleCallback,
+      required this.editNoteContentCallback});
 
   @override
   _NoteWritingSectionState createState() => _NoteWritingSectionState();
@@ -27,9 +26,9 @@ class _NoteWritingSectionState extends State<NoteWritingSection> {
   @override
   void initState() {
     super.initState();
-    _titleController.text = widget.note.noteTitle ?? "";
-    _contentController.text = widget.note
-        .noteContent; // Any note object here will always have some content.
+    _titleController.text = widget.startingTitle ?? "";
+    _contentController.text = widget
+        .startingContent; // Any note object here will always have some content.
   }
 
   @override
@@ -66,10 +65,7 @@ class _NoteWritingSectionState extends State<NoteWritingSection> {
               style: TextStyle(color: Colors.white, fontSize: 24),
               keyboardType: TextInputType.name,
               onChanged: (value) {
-                // widget.title = value;
-                widget.note.noteTitle = value;
-                // widget.editNoteTitleCallback!(value);
-                print("Title: ${widget.note.noteTitle}");
+                widget.editNoteTitleCallback(value);
               },
             ),
             Expanded(
@@ -82,10 +78,7 @@ class _NoteWritingSectionState extends State<NoteWritingSection> {
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 onChanged: (value) {
-                  // widget.content = value;
-                  widget.note.noteContent = value;
-                  // widget.editNoteContentCallback!(value);
-                  print("Note: ${widget.note.noteContent}");
+                  widget.editNoteContentCallback(value);
                 },
               ),
             )

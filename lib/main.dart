@@ -9,13 +9,18 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  // NotesModel _notesModel = NotesModel();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark().copyWith(accentColor: kDarkThemeBackgroundColor),
-      home: ChangeNotifierProvider(
-        create: (context) => NotesModel(),
-        child: HomeScreen(),
+    // _notesModel.buildDummyData();
+
+    return ChangeNotifierProvider(
+      create: (context) => NotesModel(),
+      child: MaterialApp(
+        theme:
+            ThemeData.dark().copyWith(accentColor: kDarkThemeBackgroundColor),
+        home: HomeScreen(),
       ),
     );
   }

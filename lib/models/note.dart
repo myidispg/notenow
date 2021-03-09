@@ -16,7 +16,7 @@ class NoteModel {
 
   String get noteContent => this._content;
 
-  set noteLabel(int newLabel) => this._label = _label;
+  set noteLabel(int newLabel) => this._label = newLabel;
 
   int get noteLabel => this._label;
 

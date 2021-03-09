@@ -9,17 +9,9 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class NoteScreen extends StatefulWidget {
-  // NoteModel note;
-  final Function? deleteNoteCallback;
-  final Function saveNoteCallback;
   final int? noteIndex;
 
-  NoteScreen(
-      {
-      // required this.note,
-      this.deleteNoteCallback,
-      required this.saveNoteCallback,
-      this.noteIndex});
+  NoteScreen({this.noteIndex});
 
   @override
   _NoteScreenState createState() => _NoteScreenState();
@@ -32,47 +24,35 @@ class _NoteScreenState extends State<NoteScreen> {
   @override
   void initState() {
     super.initState();
-
-    _note = widget.noteIndex != null
-        ? Provider.of<NotesModel>(context).getNote(widget.noteIndex!)
-        : NoteModel(content: "");
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // if (!this._isNoteInitialized) {
-    //   _note = widget.noteIndex != null
-    //       ? Provider.of<NotesModel>(context).getNote(widget.noteIndex!)
-    //       : NoteModel(content: "");
-    // }
+    if (!this._isNoteInitialized) {
+      _note = widget.noteIndex != null
+          ? Provider.of<NotesModel>(context).getNote(widget.noteIndex!)
+          : NoteModel(content: "");
+      this._isNoteInitialized = true;
+    }
   }
 
   void editNoteTitle(String newTitle) {
     /// This is a callback that allows the NoteWritingScreen to edit the note
     /// object in this class.
     _note.noteTitle = newTitle;
-    print("Inside main note screen title: $newTitle");
   }
 
   void editNoteContent(String newContent) {
     /// This is a callback that allows the NoteWritingScreen to edit the note
     /// object in this class.
-    // Provider.of<NotesModel>(context).getNote(widget.noteIndex!).noteContent =
-    //     newContent;
     _note.noteContent = newContent;
-    print("Inside main note screen content: $newContent");
   }
 
   void editNoteLabel(int newLabel) {
     /// Callback to change the label of a note.
     setState(() {
-      NoteModel newNote = NoteModel(
-          title: _note.noteTitle, content: _note.noteContent, label: newLabel);
-      // Note newNote = widget.note.copy();
-      print("Old: ${_note.hashCode}, new: ${newNote.hashCode}");
-      // newNote.noteLabel = labelIndex;
-      _note = newNote;
+      _note.noteLabel = newLabel;
     });
   }
 
@@ -85,7 +65,7 @@ class _NoteScreenState extends State<NoteScreen> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: kDarkThemeBackgroundColor,
-        title: Text("Create a note"),
+        title: Text("Your note"),
         actions: [
           IconButton(
             icon: Icon(Icons.check),
@@ -94,15 +74,19 @@ class _NoteScreenState extends State<NoteScreen> {
               if (_note.noteContent != "") {
                 if (widget.noteIndex == null)
                   // New note is being created.
-                  widget.saveNoteCallback(_note);
+                  Provider.of<NotesModel>(context, listen: false)
+                      .saveNote(_note);
                 else
                   // Note is edited. Tell the index too.
-                  widget.saveNoteCallback(_note, widget.noteIndex);
+                  Provider.of<NotesModel>(context, listen: false)
+                      .saveNote(_note, widget.noteIndex!);
                 Navigator.pop(context);
               } else {
-                // Scaffold.of(context).showSnackBar(snackbar)
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("Please enter some content for the note.")));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Please enter some content for the note."),
+                  ),
+                );
               }
             },
           )
@@ -129,7 +113,9 @@ class _NoteScreenState extends State<NoteScreen> {
                             ? 'note_box_${widget.noteIndex}'
                             : 'note_box',
                         child: NoteWritingSection(
-                          note: _note,
+                          // note: _note,
+                          startingTitle: _note.noteTitle,
+                          startingContent: _note.noteContent,
                           editNoteTitleCallback: editNoteTitle,
                           editNoteContentCallback: editNoteContent,
                         ),
@@ -139,8 +125,12 @@ class _NoteScreenState extends State<NoteScreen> {
                   BottomNoteOptions(
                     deviceHeight: deviceHeight,
                     deviceWidth: deviceWidth,
-                    note: _note,
-                    deleteNoteCallback: widget.deleteNoteCallback,
+                    labelIndex: _note.noteLabel,
+                    // note: _note,
+                    deleteNoteCallback: () {
+                      Provider.of<NotesModel>(context, listen: false)
+                          .deleteNote(note: _note);
+                    },
                     editLabelCallback: editNoteLabel,
                   )
                 ],
@@ -154,16 +144,16 @@ class _NoteScreenState extends State<NoteScreen> {
 }
 
 class BottomNoteOptions extends StatefulWidget {
-  NoteModel note;
+  int labelIndex;
   final Function? deleteNoteCallback;
   final Function editLabelCallback;
   final double deviceHeight;
   final double deviceWidth;
 
   BottomNoteOptions(
-      {required this.deviceHeight,
+      {required this.labelIndex,
+      required this.deviceHeight,
       required this.deviceWidth,
-      required this.note,
       required this.deleteNoteCallback,
       required this.editLabelCallback});
 
@@ -172,17 +162,13 @@ class BottomNoteOptions extends StatefulWidget {
 }
 
 class _BottomNoteOptionsState extends State<BottomNoteOptions> {
-  void changeLabelCallback(int labelIndex) {
+  void changeLabelCallback(int newLabelIndex) {
+    /// Callback for the AlertDialog to change label in the
+    /// BottomNoteOptions class instance.
     setState(() {
-      NoteModel newNote = NoteModel(
-          title: widget.note.noteTitle,
-          content: widget.note.noteContent,
-          label: labelIndex);
-      // Note newNote = widget.note.copy();
-      print("Old: ${widget.note.hashCode}, new: ${newNote.hashCode}");
-      // newNote.noteLabel = labelIndex;
-      widget.note = newNote;
-      // widget.note.noteLabel = labelIndex;
+      widget.labelIndex = newLabelIndex; // Change for this widget.
+      widget.editLabelCallback(
+          newLabelIndex); // Change for the temp notemodel object.
     });
   }
 
@@ -197,7 +183,7 @@ class _BottomNoteOptionsState extends State<BottomNoteOptions> {
           IconButton(
             icon: Icon(
               Icons.star,
-              color: kLabelToColor[widget.note.noteLabel],
+              color: kLabelToColor[widget.labelIndex],
             ),
             iconSize: 28,
             onPressed: () {
@@ -205,7 +191,7 @@ class _BottomNoteOptionsState extends State<BottomNoteOptions> {
                   context: context,
                   builder: (context) {
                     return LabelSelectorDialog(
-                      selectedIndex: widget.note.noteLabel,
+                      selectedLabel: widget.labelIndex,
                       deviceWidth: widget.deviceWidth,
                       changeLabelCallback: widget.editLabelCallback,
                     );
@@ -225,7 +211,7 @@ class _BottomNoteOptionsState extends State<BottomNoteOptions> {
             iconSize: 28,
             onPressed: () {
               // Remove note only if it has some content.
-              this.widget.deleteNoteCallback?.call(widget.note);
+              this.widget.deleteNoteCallback?.call();
               Navigator.pop(context);
             },
           ),
