@@ -1,3 +1,5 @@
+import 'package:notes_app/constants.dart';
+
 class NoteModel {
   String? _title;
   String _content;
@@ -20,8 +22,22 @@ class NoteModel {
 
   int get noteLabel => this._label;
 
-  NoteModel copy() {
-    return NoteModel(
-        title: this._title, content: this._content, label: this._label);
+  // DATABASE HELPERS
+
+  // A constructor to create an object directly from the Database.
+  // NoteModel.fromMap(Map<String, dynamic> map) {
+  //   _title = map[kColumnTitle];
+  //   _content = map[kColumnContent];
+  //   _label = map[kColumnLabel];
+  // }
+
+  Map<String, dynamic?> toMap() {
+    var map = <String, dynamic>{kColumnContent: _content, kColumnLabel: _label};
+
+    if (_title != null) {
+      map[kColumnTitle] = _title;
+    }
+
+    return map;
   }
 }

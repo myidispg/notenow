@@ -37,7 +37,10 @@ dependencies:
   url_launcher: ^6.0.2
   provider: ^5.0.0
   share: ^2.0.0
-#  flutter_svg: ^0.19.3
+
+  # Local Storage
+  sqflite: ^2.0.0+2
+  path_provider: ^2.0.1
 
 dev_dependencies:
   flutter_test:

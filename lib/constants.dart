@@ -28,3 +28,9 @@ const Map<int, Color> kLabelToColor = {
   7: Colors.pinkAccent,
   8: Colors.tealAccent
 };
+
+final String kDatabaseName = 'notesDatabase.db';
+final String kTableNotes = "notes";
+final String kColumnTitle = 'title';
+final String kColumnContent = 'content';
+final String kColumnLabel = 'label';
