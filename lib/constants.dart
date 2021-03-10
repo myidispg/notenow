@@ -31,6 +31,7 @@ const Map<int, Color> kLabelToColor = {
 
 final String kDatabaseName = 'notesDatabase.db';
 final String kTableNotes = "notes";
+final String kColumnId = "id";
 final String kColumnTitle = 'title';
 final String kColumnContent = 'content';
 final String kColumnLabel = 'label';

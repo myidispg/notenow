@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
+import 'package:notes_app/database/database_helper.dart';
 import 'package:notes_app/models/note.dart';
 import 'package:notes_app/models/notes.dart';
 import 'package:notes_app/widgets/label_selector_dialog.dart';
@@ -33,7 +34,7 @@ class _NoteScreenState extends State<NoteScreen> {
     if (!this._isNoteInitialized) {
       _note = widget.noteIndex != null
           ? Provider.of<NotesModel>(context).getNote(widget.noteIndex!)
-          : NoteModel(content: "");
+          : NoteModel(noteContent: "");
       this._isNoteInitialized = true;
     }
   }
@@ -55,6 +56,8 @@ class _NoteScreenState extends State<NoteScreen> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
 
+    print('Note id: ${_note.id}');
+
     return Hero(
       tag: widget.noteIndex != null
           ? 'note_box_${widget.noteIndex}'
@@ -70,14 +73,19 @@ class _NoteScreenState extends State<NoteScreen> {
               onPressed: () {
                 // Every new note must have some content.
                 if (_note.noteContent != "") {
-                  if (widget.noteIndex == null)
+                  if (widget.noteIndex == null) {
                     // New note is being created.
                     Provider.of<NotesModel>(context, listen: false)
                         .saveNote(_note);
-                  else
+                    Provider.of<DatabaseHelper>(context, listen: false)
+                        .insert(_note);
+                  } else
                     // Note is edited. Tell the index too.
                     Provider.of<NotesModel>(context, listen: false)
                         .saveNote(_note, widget.noteIndex!);
+                  // Database update is based on the id of the note. That will remain unchanged.
+                  Provider.of<DatabaseHelper>(context, listen: false)
+                      .updateNote(_note);
                   Navigator.pop(context);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -118,10 +126,12 @@ class _NoteScreenState extends State<NoteScreen> {
                       deviceHeight: deviceHeight,
                       deviceWidth: deviceWidth,
                       note: _note,
-                      deleteNoteCallback: () {
+                      deleteNoteCallback: () async {
                         if (widget.noteIndex != null)
-                          Provider.of<NotesModel>(context, listen: false)
-                              .deleteNote(note: _note);
+                          Provider.of<DatabaseHelper>(context, listen: false)
+                              .deleteNote(_note.id);
+                        Provider.of<NotesModel>(context, listen: false)
+                            .deleteNote(note: _note);
                         Navigator.pop(context);
                       },
                     )

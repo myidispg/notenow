@@ -6,55 +6,54 @@ class NotesModel extends ChangeNotifier {
 
   void buildDummyData() {
     List<NoteModel> notesData = [
-      NoteModel(title: "Note 1", content: "1Lorem Ipsum is simply "),
+      NoteModel(noteTitle: "Note 1", noteContent: "1Lorem Ipsum is simply "),
       NoteModel(
-          title: "Note 2",
-          content: "2Lorem Ipsum is simply dummy text of the ",
-          label: 1),
+          noteTitle: "Note 2",
+          noteContent: "2Lorem Ipsum is simply dummy text of the ",
+          noteLabel: 1),
       NoteModel(
-          title: "Note 3",
-          content:
+          noteTitle: "Note 3",
+          noteContent:
               "3Lorem Ipsum is simply dummy text of the printing and typesetting ",
-          label: 2),
+          noteLabel: 2),
       NoteModel(
-          title: "Note 4",
-          content:
+          noteTitle: "Note 4",
+          noteContent:
               "4Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-          label: 3),
+          noteLabel: 3),
       NoteModel(
-          title: "Note 5",
-          content:
+          noteTitle: "Note 5",
+          noteContent:
               "5Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-          label: 4),
+          noteLabel: 4),
       NoteModel(
-          title: "Note 6",
-          content:
+          noteTitle: "Note 6",
+          noteContent:
               "6Lorem Ipsum is simply dummy text of the printing and \ntypesetting industry. Lorem Ipsum has been \n\n\n\nthe industry's standard dummy text ",
-          label: 5),
+          noteLabel: 5),
       NoteModel(
-          title: "Note 7",
-          content:
+          noteTitle: "Note 7",
+          noteContent:
               "7Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
-          label: 6),
+          noteLabel: 6),
       NoteModel(
-          title: "Note 8",
-          content:
+          noteTitle: "Note 8",
+          noteContent:
               "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          label: 7),
+          noteLabel: 7),
       NoteModel(
-          title: "Note 9",
-          content:
+          noteTitle: "Note 9",
+          noteContent:
               "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          label: 8),
+          noteLabel: 8),
       NoteModel(
-          title: "Note 10",
-          content:
+          noteTitle: "Note 10",
+          noteContent:
               "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          label: 1),
+          noteLabel: 1),
     ];
     notesData.forEach((note) {
       _notes.add(note);
-      // notes.saveNote(element);
     });
   }
 

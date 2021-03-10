@@ -6,6 +6,7 @@ import 'package:notes_app/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 late NotesModel notesModel;
+DatabaseHelper databaseHelper = DatabaseHelper();
 
 main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +15,6 @@ main() {
 }
 
 Future<void> getAllNotes() async {
-  DatabaseHelper databaseHelper = DatabaseHelper();
   // Wait to establish a connection to the database
   await databaseHelper.open();
 
@@ -28,10 +28,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => notesModel,
-      child: MaterialApp(
-        theme:
-            ThemeData.dark().copyWith(accentColor: kDarkThemeBackgroundColor),
-        home: HomeScreen(),
+      child: ChangeNotifierProvider(
+        create: (context) => databaseHelper,
+        child: MaterialApp(
+          theme:
+              ThemeData.dark().copyWith(accentColor: kDarkThemeBackgroundColor),
+          home: HomeScreen(),
+        ),
       ),
     );
   }

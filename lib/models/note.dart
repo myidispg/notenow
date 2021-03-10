@@ -1,41 +1,36 @@
 import 'package:notes_app/constants.dart';
+import 'package:uuid/uuid.dart';
 
 class NoteModel {
-  String? _title;
-  String _content;
-  int _label;
+  late String id;
+  String? noteTitle;
+  String noteContent;
+  int noteLabel;
 
-  NoteModel({String? title, required String content, int label = 0})
-      : this._title = title,
-        this._content = content,
-        this._label = label;
-
-  set noteTitle(String? newTitle) => this._title = newTitle;
-
-  String? get noteTitle => this._title;
-
-  set noteContent(String newContent) => this._content = newContent;
-
-  String get noteContent => this._content;
-
-  set noteLabel(int newLabel) => this._label = newLabel;
-
-  int get noteLabel => this._label;
+  NoteModel(
+      {this.noteTitle,
+      required this.noteContent,
+      this.noteLabel = 0,
+      this.id = "0"}) {
+    // ID must be editable because the note object can be created from DB.
+    if (this.id == "0") {
+      // This means a new note is created.
+      var uuid = Uuid();
+      id = uuid.v4();
+    }
+  }
 
   // DATABASE HELPERS
 
-  // A constructor to create an object directly from the Database.
-  // NoteModel.fromMap(Map<String, dynamic> map) {
-  //   _title = map[kColumnTitle];
-  //   _content = map[kColumnContent];
-  //   _label = map[kColumnLabel];
-  // }
-
   Map<String, dynamic?> toMap() {
-    var map = <String, dynamic>{kColumnContent: _content, kColumnLabel: _label};
+    var map = <String, dynamic>{
+      kColumnId: id,
+      kColumnContent: noteContent,
+      kColumnLabel: noteLabel
+    };
 
-    if (_title != null) {
-      map[kColumnTitle] = _title;
+    if (noteTitle != null) {
+      map[kColumnTitle] = noteTitle;
     }
 
     return map;
