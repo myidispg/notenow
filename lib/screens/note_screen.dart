@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
-import 'package:notes_app/database/database_helper.dart';
 import 'package:notes_app/models/note.dart';
 import 'package:notes_app/models/notes.dart';
 import 'package:notes_app/widgets/label_selector_dialog.dart';
@@ -23,10 +23,8 @@ class _NoteScreenState extends State<NoteScreen> {
   late NoteModel _note;
   bool _isNoteInitialized = false;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  CollectionReference notes =
+      FirebaseFirestore.instance.collection('email@email.com');
 
   @override
   void didChangeDependencies() {
@@ -51,54 +49,81 @@ class _NoteScreenState extends State<NoteScreen> {
     _note.noteContent = newContent;
   }
 
+  void addNoteFirestore() {
+    notes
+        .doc('${_note.id}')
+        .set({
+          'title': _note.noteTitle,
+          'content': _note.noteContent,
+          'label': _note.noteLabel
+        })
+        .then((value) => print("Note added in firestore"))
+        .catchError((error) => print("There was an error: $error"));
+  }
+
+  void updateNoteFirestore() {
+    notes
+        .doc('${_note.id}')
+        .update({
+          'title': _note.noteTitle,
+          'content': _note.noteContent,
+          'label': _note.noteLabel
+        })
+        .then((value) => print("Note updated in firebase firestore"))
+        .catchError((error) => print("There was an error: $error"));
+  }
+
+  void deleteNoteFirestore() {
+    notes
+        .doc('${_note.id}')
+        .delete()
+        .then((value) => print("Note removed from firebase firestore"))
+        .catchError((error) => print("There was an error: $error"));
+  }
+
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
 
-    print('Note id: ${_note.id}');
-
-    return Hero(
-      tag: widget.noteIndex != null
-          ? 'note_box_${widget.noteIndex}'
-          : 'note_box',
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: kDarkThemeBackgroundColor,
-          title: Text("Your note"),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.check),
-              onPressed: () {
-                // Every new note must have some content.
-                if (_note.noteContent != "") {
-                  if (widget.noteIndex == null) {
-                    // New note is being created.
-                    Provider.of<NotesModel>(context, listen: false)
-                        .saveNote(_note);
-                    Provider.of<DatabaseHelper>(context, listen: false)
-                        .insert(_note);
-                  } else
-                    // Note is edited. Tell the index too.
-                    Provider.of<NotesModel>(context, listen: false)
-                        .saveNote(_note, widget.noteIndex!);
-                  // Database update is based on the id of the note. That will remain unchanged.
-                  Provider.of<DatabaseHelper>(context, listen: false)
-                      .updateNote(_note);
-                  Navigator.pop(context);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("Please enter some content for the note."),
-                    ),
-                  );
-                }
-              },
-            )
-          ],
-        ),
-        body: SafeArea(
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: kDarkThemeBackgroundColor,
+        title: Text("Your note"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.check),
+            onPressed: () {
+              // Every new note must have some content.
+              if (_note.noteContent != "") {
+                if (widget.noteIndex == null) {
+                  // New note is being created.
+                  Provider.of<NotesModel>(context, listen: false)
+                      .saveNote(_note);
+                  addNoteFirestore();
+                } else
+                  // Note is edited. Tell the index too.
+                  Provider.of<NotesModel>(context, listen: false)
+                      .saveNote(_note, widget.noteIndex!);
+                updateNoteFirestore();
+                Navigator.pop(context);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Please enter some content for the note."),
+                  ),
+                );
+              }
+            },
+          )
+        ],
+      ),
+      body: Hero(
+        tag: widget.noteIndex != null
+            ? 'note_box_${widget.noteIndex}'
+            : 'note_box',
+        child: SafeArea(
           child: SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(
@@ -122,16 +147,18 @@ class _NoteScreenState extends State<NoteScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 4,
+                    ),
                     BottomNoteOptions(
                       deviceHeight: deviceHeight,
                       deviceWidth: deviceWidth,
                       note: _note,
                       deleteNoteCallback: () async {
                         if (widget.noteIndex != null)
-                          Provider.of<DatabaseHelper>(context, listen: false)
-                              .deleteNote(_note.id);
-                        Provider.of<NotesModel>(context, listen: false)
-                            .deleteNote(note: _note);
+                          Provider.of<NotesModel>(context, listen: false)
+                              .deleteNote(note: _note);
+                        deleteNoteFirestore();
                         Navigator.pop(context);
                       },
                     )

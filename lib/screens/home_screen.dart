@@ -86,7 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                         child: NoteBox(
-                          title: notes.getNote(index).noteTitle,
+                          title: notes.getNote(index).noteTitle!.isNotEmpty
+                              ? notes.getNote(index).noteTitle
+                              : "Note",
                           text: notes.getNote(index).noteContent,
                           labelColor:
                               kLabelToColor[notes.getNote(index).noteLabel],
