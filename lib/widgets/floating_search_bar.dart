@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
+import 'package:notes_app/screens/login_screen.dart';
 import 'package:notes_app/search_delegate/note_search_class.dart';
 
 class FloatingSearchBar extends StatelessWidget {
@@ -32,16 +33,26 @@ class FloatingSearchBar extends StatelessWidget {
                 },
                 child: Icon(Icons.menu, size: kIconSize),
               ),
-              GestureDetector(
-                onTap: () {
-                  showSearch(context: context, delegate: NoteSearchClass());
-                },
-                child: Text(
-                  "Search your notes",
-                  style: TextStyle(fontSize: 18, color: kGreyTextColor),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    showSearch(context: context, delegate: NoteSearchClass());
+                  },
+                  child: Text(
+                    "Search your notes",
+                    style: TextStyle(fontSize: 18, color: kGreyTextColor),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
               GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (builder) => LoginScreen(),
+                    ),
+                  );
+                },
                 child: Icon(Icons.account_circle_sharp,
                     color: kPurpleColor, size: kIconSize),
               )

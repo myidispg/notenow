@@ -64,41 +64,52 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 10,
             ),
             Expanded(
-              child: Consumer<NotesModel>(
-                builder: (context, notes, child) {
-                  return StaggeredGridView.countBuilder(
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    crossAxisCount: 4,
-                    itemCount: notes.notesCount,
-                    physics: BouncingScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) => Hero(
-                      tag: 'note_box_$index',
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (builder) => NoteScreen(
-                                noteIndex: index,
+              child: Provider.of<NotesModel>(context).notesCount != 0
+                  ? Consumer<NotesModel>(
+                      builder: (context, notes, child) {
+                        return StaggeredGridView.countBuilder(
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                          crossAxisCount: 4,
+                          itemCount: notes.notesCount,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) =>
+                              Hero(
+                            tag: 'note_box_$index',
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (builder) => NoteScreen(
+                                      noteIndex: index,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: NoteBox(
+                                title:
+                                    notes.getNote(index).noteTitle!.isNotEmpty
+                                        ? notes.getNote(index).noteTitle
+                                        : "Note",
+                                text: notes.getNote(index).noteContent,
+                                labelColor: kLabelToColor[
+                                    notes.getNote(index).noteLabel],
                               ),
                             ),
-                          );
-                        },
-                        child: NoteBox(
-                          title: notes.getNote(index).noteTitle!.isNotEmpty
-                              ? notes.getNote(index).noteTitle
-                              : "Note",
-                          text: notes.getNote(index).noteContent,
-                          labelColor:
-                              kLabelToColor[notes.getNote(index).noteLabel],
-                        ),
+                          ),
+                          staggeredTileBuilder: (int index) =>
+                              StaggeredTile.fit(2),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                        "You have not added any notes.",
+                        style: TextStyle(fontSize: 18),
                       ),
                     ),
-                    staggeredTileBuilder: (int index) => StaggeredTile.fit(2),
-                  );
-                },
-              ),
             ),
           ],
         ),

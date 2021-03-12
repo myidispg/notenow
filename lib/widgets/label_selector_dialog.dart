@@ -32,60 +32,24 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              GestureDetector(
-                onTap: () {
-                  print("Clicked light blue");
-                  widget.changeLabelCallback(0);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: widget.deviceWidth * 0.1,
-                  width: widget.deviceWidth * 0.1,
-                  decoration: BoxDecoration(
-                    color: Colors.lightBlueAccent,
-                    borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedLabel == 0
-                        ? Border.all(color: Colors.blueGrey, width: 5)
-                        : null,
-                  ),
-                ),
+              ColoredLabelWidget(
+                callbackFunction: widget.changeLabelCallback,
+                labelCallbackIndex: 0,
+                labelColor: Colors.lightBlueAccent,
+                showBorder: widget.selectedLabel == 0 ? true : false,
               ),
-              GestureDetector(
-                onTap: () {
-                  print("Clicked red");
-                  widget.changeLabelCallback(1);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: widget.deviceWidth * 0.1,
-                  width: widget.deviceWidth * 0.1,
-                  decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedLabel == 1
-                        ? Border.all(color: Colors.blueGrey, width: 5)
-                        : null,
-                  ),
-                ),
+              ColoredLabelWidget(
+                callbackFunction: widget.changeLabelCallback,
+                labelCallbackIndex: 1,
+                labelColor: Colors.redAccent,
+                showBorder: widget.selectedLabel == 1 ? true : false,
               ),
-              GestureDetector(
-                onTap: () {
-                  print("Clicked purple");
-                  widget.changeLabelCallback(2);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: widget.deviceWidth * 0.1,
-                  width: widget.deviceWidth * 0.1,
-                  decoration: BoxDecoration(
-                    color: Colors.purpleAccent,
-                    borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedLabel == 2
-                        ? Border.all(color: Colors.blueGrey, width: 5)
-                        : null,
-                  ),
-                ),
-              )
+              ColoredLabelWidget(
+                callbackFunction: widget.changeLabelCallback,
+                labelCallbackIndex: 2,
+                labelColor: Colors.purpleAccent,
+                showBorder: widget.selectedLabel == 2 ? true : false,
+              ),
             ],
           ),
           SizedBox(
@@ -94,60 +58,24 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              GestureDetector(
-                onTap: () {
-                  print("Clicked green");
-                  widget.changeLabelCallback(3);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: widget.deviceWidth * 0.1,
-                  width: widget.deviceWidth * 0.1,
-                  decoration: BoxDecoration(
-                    color: Colors.greenAccent,
-                    borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedLabel == 3
-                        ? Border.all(color: Colors.blueGrey, width: 5)
-                        : null,
-                  ),
-                ),
+              ColoredLabelWidget(
+                callbackFunction: widget.changeLabelCallback,
+                labelCallbackIndex: 3,
+                labelColor: Colors.greenAccent,
+                showBorder: widget.selectedLabel == 3 ? true : false,
               ),
-              GestureDetector(
-                onTap: () {
-                  print("Clicked yellow");
-                  widget.changeLabelCallback(4);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: widget.deviceWidth * 0.1,
-                  width: widget.deviceWidth * 0.1,
-                  decoration: BoxDecoration(
-                    color: Colors.yellowAccent,
-                    borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedLabel == 4
-                        ? Border.all(color: Colors.blueGrey, width: 5)
-                        : null,
-                  ),
-                ),
+              ColoredLabelWidget(
+                callbackFunction: widget.changeLabelCallback,
+                labelCallbackIndex: 4,
+                labelColor: Colors.yellowAccent,
+                showBorder: widget.selectedLabel == 4 ? true : false,
               ),
-              GestureDetector(
-                onTap: () {
-                  print("Clicked blue");
-                  widget.changeLabelCallback(5);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: widget.deviceWidth * 0.1,
-                  width: widget.deviceWidth * 0.1,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedLabel == 5
-                        ? Border.all(color: Colors.blueGrey, width: 5)
-                        : null,
-                  ),
-                ),
-              )
+              ColoredLabelWidget(
+                callbackFunction: widget.changeLabelCallback,
+                labelCallbackIndex: 5,
+                labelColor: Colors.blueAccent,
+                showBorder: widget.selectedLabel == 5 ? true : false,
+              ),
             ],
           ),
           SizedBox(
@@ -156,63 +84,63 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              GestureDetector(
-                onTap: () {
-                  print("Clicked orange");
-                  widget.changeLabelCallback(6);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: widget.deviceWidth * 0.1,
-                  width: widget.deviceWidth * 0.1,
-                  decoration: BoxDecoration(
-                    color: Colors.orangeAccent,
-                    borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedLabel == 6
-                        ? Border.all(color: Colors.blueGrey, width: 5)
-                        : null,
-                  ),
-                ),
+              ColoredLabelWidget(
+                callbackFunction: widget.changeLabelCallback,
+                labelCallbackIndex: 6,
+                labelColor: Colors.orangeAccent,
+                showBorder: widget.selectedLabel == 6 ? true : false,
               ),
-              GestureDetector(
-                onTap: () {
-                  print("Clicked pink");
-                  widget.changeLabelCallback(7);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: widget.deviceWidth * 0.1,
-                  width: widget.deviceWidth * 0.1,
-                  decoration: BoxDecoration(
-                    color: Colors.pinkAccent,
-                    borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedLabel == 7
-                        ? Border.all(color: Colors.blueGrey, width: 5)
-                        : null,
-                  ),
-                ),
+              ColoredLabelWidget(
+                callbackFunction: widget.changeLabelCallback,
+                labelCallbackIndex: 7,
+                labelColor: Colors.pinkAccent,
+                showBorder: widget.selectedLabel == 7 ? true : false,
               ),
-              GestureDetector(
-                onTap: () {
-                  print("Clicked teal");
-                  widget.changeLabelCallback(8);
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: widget.deviceWidth * 0.1,
-                  width: widget.deviceWidth * 0.1,
-                  decoration: BoxDecoration(
-                    color: Colors.tealAccent,
-                    borderRadius: BorderRadius.circular(widget.deviceWidth),
-                    border: widget.selectedLabel == 8
-                        ? Border.all(color: Colors.blueGrey, width: 5)
-                        : null,
-                  ),
-                ),
-              )
+              ColoredLabelWidget(
+                callbackFunction: widget.changeLabelCallback,
+                labelCallbackIndex: 8,
+                labelColor: Colors.tealAccent,
+                showBorder: widget.selectedLabel == 8 ? true : false,
+              ),
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class ColoredLabelWidget extends StatelessWidget {
+  final Function callbackFunction;
+  final Color labelColor;
+  final int labelCallbackIndex;
+  final bool showBorder;
+
+  const ColoredLabelWidget(
+      {required this.labelColor,
+      required this.labelCallbackIndex,
+      required this.callbackFunction,
+      required this.showBorder});
+
+  @override
+  Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
+    return GestureDetector(
+      onTap: () {
+        print("Clicked ${this.labelColor.toString()}");
+        callbackFunction(labelCallbackIndex);
+        // widget.changeLabelCallback(0);
+        Navigator.pop(context);
+      },
+      child: Container(
+        height: width * 0.1,
+        width: width * 0.1,
+        decoration: BoxDecoration(
+            color: this.labelColor,
+            borderRadius: BorderRadius.circular(width),
+            border: this.showBorder
+                ? Border.all(color: Colors.blueGrey, width: 5)
+                : null),
       ),
     );
   }
