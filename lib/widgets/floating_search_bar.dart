@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
-import 'package:notes_app/screens/login_screen.dart';
+import 'package:notes_app/screens/online_sync_screen.dart';
 import 'package:notes_app/search_delegate/note_search_class.dart';
 
 class FloatingSearchBar extends StatelessWidget {
@@ -49,7 +49,7 @@ class FloatingSearchBar extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (builder) => LoginScreen(),
+                      builder: (builder) => OnlineSyncScreen(),
                     ),
                   );
                 },

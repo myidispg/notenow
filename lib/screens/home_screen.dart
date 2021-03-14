@@ -105,9 +105,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     )
                   : Center(
-                      child: Text(
-                        "You have not added any notes.",
-                        style: TextStyle(fontSize: 18),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 50),
+                        child: Text(
+                          "You have not added any notes.\n\nPlease login again if you are a returning user.",
+                          style: TextStyle(fontSize: 18),
+                        ),
                       ),
                     ),
             ),

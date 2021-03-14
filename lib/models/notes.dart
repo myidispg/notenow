@@ -1,61 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:notes_app/constants.dart';
 import 'package:notes_app/models/note.dart';
 
 class NotesModel extends ChangeNotifier {
   List<NoteModel> _notes = [];
-
-  void buildDummyData() {
-    List<NoteModel> notesData = [
-      NoteModel(noteTitle: "Note 1", noteContent: "1Lorem Ipsum is simply "),
-      NoteModel(
-          noteTitle: "Note 2",
-          noteContent: "2Lorem Ipsum is simply dummy text of the ",
-          noteLabel: 1),
-      NoteModel(
-          noteTitle: "Note 3",
-          noteContent:
-              "3Lorem Ipsum is simply dummy text of the printing and typesetting ",
-          noteLabel: 2),
-      NoteModel(
-          noteTitle: "Note 4",
-          noteContent:
-              "4Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-          noteLabel: 3),
-      NoteModel(
-          noteTitle: "Note 5",
-          noteContent:
-              "5Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-          noteLabel: 4),
-      NoteModel(
-          noteTitle: "Note 6",
-          noteContent:
-              "6Lorem Ipsum is simply dummy text of the printing and \ntypesetting industry. Lorem Ipsum has been \n\n\n\nthe industry's standard dummy text ",
-          noteLabel: 5),
-      NoteModel(
-          noteTitle: "Note 7",
-          noteContent:
-              "7Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley",
-          noteLabel: 6),
-      NoteModel(
-          noteTitle: "Note 8",
-          noteContent:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          noteLabel: 7),
-      NoteModel(
-          noteTitle: "Note 9",
-          noteContent:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          noteLabel: 8),
-      NoteModel(
-          noteTitle: "Note 10",
-          noteContent:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\nLorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          noteLabel: 1),
-    ];
-    notesData.forEach((note) {
-      _notes.add(note);
-    });
-  }
+  String userEmail = kDefaultEmail;
 
   int get notesCount => _notes.length;
 

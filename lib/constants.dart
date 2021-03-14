@@ -29,9 +29,37 @@ const Map<int, Color> kLabelToColor = {
   8: Colors.tealAccent
 };
 
+// Firebase
+final String kDefaultEmail = 'email@email.com';
+final String kTitleDocumentField = 'title';
+final String kContentDocumentField = 'content';
+final String kLabelDocumentField = 'label';
+
+// Shared Preferences
+final String kEmailKeySharedPreferences = 'userEmail';
+
 final String kDatabaseName = 'notesDatabase.db';
 final String kTableNotes = "notes";
 final String kColumnId = "id";
 final String kColumnTitle = 'title';
 final String kColumnContent = 'content';
 final String kColumnLabel = 'label';
+
+const kInputFieldDecoration = InputDecoration(
+  labelText: "Email",
+  labelStyle: TextStyle(
+      color: Colors.white70, fontSize: 18, fontWeight: FontWeight.w600),
+  // errorText: "Some error occurred",
+  errorStyle: TextStyle(fontSize: 14, color: Colors.red),
+  errorBorder:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
+  enabledBorder:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+  focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: kPurpleColor), gapPadding: 4),
+  focusedErrorBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: Colors.redAccent),
+  ),
+);
+
+enum kLoginCodesEnum { wrong_password, weak_password, successful, unknownError }

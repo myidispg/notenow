@@ -24,7 +24,7 @@ class _NoteScreenState extends State<NoteScreen> {
   bool _isNoteInitialized = false;
 
   CollectionReference notes =
-      FirebaseFirestore.instance.collection('email@email.com');
+      FirebaseFirestore.instance.collection(kDefaultEmail);
 
   @override
   void didChangeDependencies() {
