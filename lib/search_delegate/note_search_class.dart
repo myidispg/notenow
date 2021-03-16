@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:notes_app/app_state/app_state.dart';
 import 'package:notes_app/constants.dart';
-import 'package:notes_app/models/notes.dart';
 import 'package:notes_app/screens/note_screen.dart';
 import 'package:notes_app/widgets/note_box.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +50,7 @@ class NoteSearchClass extends SearchDelegate {
     /// same as the rest. Just an extra step to populate the Staggered Grid View.
 
     List<int> relevantIndexes =
-        Provider.of<NotesModel>(context).searchNotes(query);
+        Provider.of<AppState>(context).notesModel.searchNotes(query);
 
     if (relevantIndexes.length == 0)
       return Container(
@@ -62,8 +62,8 @@ class NoteSearchClass extends SearchDelegate {
         ),
       );
 
-    return Consumer<NotesModel>(
-      builder: (context, notes, child) {
+    return Consumer<AppState>(
+      builder: (context, appState, child) {
         return StaggeredGridView.countBuilder(
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
@@ -84,10 +84,13 @@ class NoteSearchClass extends SearchDelegate {
                 );
               },
               child: NoteBox(
-                title: notes.getNote(relevantIndexes[index]).noteTitle,
-                text: notes.getNote(index).noteContent,
-                labelColor: kLabelToColor[
-                    notes.getNote(relevantIndexes[index]).noteLabel],
+                title: appState.notesModel
+                    .getNote(relevantIndexes[index])
+                    .noteTitle,
+                text: appState.notesModel.getNote(index).noteContent,
+                labelColor: kLabelToColor[appState.notesModel
+                    .getNote(relevantIndexes[index])
+                    .noteLabel],
               ),
             ),
           ),

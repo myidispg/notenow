@@ -26,9 +26,30 @@ class _NoteScreenState extends State<NoteScreen> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
     if (!this._isNoteInitialized) {
-      _note = widget.noteIndex != null
-          ? Provider.of<AppState>(context).notesModel.getNote(widget.noteIndex!)
-          : NoteModel(noteContent: "");
+      if (widget.noteIndex != null) {
+        _note = NoteModel(
+            noteTitle: Provider.of<AppState>(context)
+                .notesModel
+                .getNote(widget.noteIndex!)
+                .noteTitle,
+            noteContent: Provider.of<AppState>(context)
+                .notesModel
+                .getNote(widget.noteIndex!)
+                .noteContent,
+            noteLabel: Provider.of<AppState>(context)
+                .notesModel
+                .getNote(widget.noteIndex!)
+                .noteLabel,
+            id: Provider.of<AppState>(context)
+                .notesModel
+                .getNote(widget.noteIndex!)
+                .id);
+      } else {
+        _note = NoteModel(noteContent: "");
+      }
+      // _note = widget.noteIndex != null
+      //     ? Provider.of<AppState>(context).notesModel.getNote(widget.noteIndex!)
+      //     : NoteModel(noteContent: "");
       this._isNoteInitialized = true;
     }
   }

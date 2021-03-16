@@ -55,8 +55,8 @@ class AppState extends ChangeNotifier {
             noteContent: doc['content'],
             noteLabel: doc['label']));
       });
+      notifyListeners();
     });
-    notifyListeners();
   }
 
   void saveNote(NoteModel newNote, [int? index]) {
