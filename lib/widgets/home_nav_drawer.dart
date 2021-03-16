@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/app_state/app_state.dart';
 import 'package:notes_app/constants.dart';
 import 'package:notes_app/widgets/about_section.dart';
+import 'package:provider/provider.dart';
 
 class HomeNavDrawer extends StatefulWidget {
   @override
@@ -22,7 +24,7 @@ class _HomeNavDrawerState extends State<HomeNavDrawer> {
               padding: const EdgeInsets.only(
                   left: 16.0, right: 16.0, top: 20.0, bottom: 4.0),
               child: Text(
-                "Kollector",
+                "NoteNow",
                 style: TextStyle(fontSize: 26),
               ),
             ),
@@ -31,10 +33,12 @@ class _HomeNavDrawerState extends State<HomeNavDrawer> {
               color: kDarkThemeWhiteGrey,
             ),
             SwitchListTile(
-              value: isDarkThemeOn,
+              value: Provider.of<AppState>(context).isDarkTheme,
               onChanged: (value) {
                 setState(() {
                   isDarkThemeOn = value;
+                  Provider.of<AppState>(context, listen: false)
+                      .setThemeBoolean(value);
                 });
               },
               title: Text(

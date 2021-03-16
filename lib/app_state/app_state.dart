@@ -6,6 +6,7 @@ import 'package:notes_app/constants.dart';
 import 'package:notes_app/database_helper/database_helper.dart';
 import 'package:notes_app/models/note.dart';
 import 'package:notes_app/models/notes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppState extends ChangeNotifier {
   String userEmail = kDefaultEmail;
@@ -19,15 +20,32 @@ class AppState extends ChangeNotifier {
 
   NotesModel notesModel = NotesModel();
 
+  bool isDarkTheme = true;
+
   Future<void> initialization() async {
     _initialization = await Firebase.initializeApp();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    if (prefs.getBool(kThemeKeySharedPreferences) == null) {
+      // The first time app is run. Hence, set the theme to dark by default
+      prefs.setBool(kThemeKeySharedPreferences, isDarkTheme);
+    } else {
+      isDarkTheme = prefs.getBool(kThemeKeySharedPreferences)!;
+    }
+    print('Preferences: ${prefs.getBool(kThemeKeySharedPreferences)}');
     FirebaseAuth auth = FirebaseAuth.instance;
     if (auth.currentUser != null) {
       // There is a registered user.
       userEmail = auth.currentUser!.email!;
       useSql = false; // No need to write to local storage.
     }
+  }
+
+  void setThemeBoolean(bool isUsingDarkTheme) async {
+    this.isDarkTheme = isUsingDarkTheme;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(kThemeKeySharedPreferences, isDarkTheme);
+    notifyListeners();
   }
 
   void readNotes() {

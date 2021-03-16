@@ -10,10 +10,12 @@ late AppState appState;
 
 main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // First initialize firebase. This is required for reading offline/online
-  // data and checking user online status.
+
+  /// [AppState] handles all the important stuff for firebase, offline sql
+  /// storage and the [NotesModel] object in the memory.
   appState = AppState();
   appState.initialization().then((_) => appState.readNotes());
+
   runApp(MyApp());
 }
 
@@ -22,10 +24,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => appState,
-      child: MaterialApp(
-        theme:
-            ThemeData.dark().copyWith(accentColor: kDarkThemeBackgroundColor),
-        home: HomeScreen(),
+      child: Builder(
+        builder: (BuildContext context) => MaterialApp(
+          theme: Provider.of<AppState>(context).isDarkTheme
+              ? ThemeData.dark()
+                  .copyWith(accentColor: kDarkThemeBackgroundColor)
+              : ThemeData.light(),
+          // theme:
+          //     ThemeData.dark().copyWith(accentColor: kDarkThemeBackgroundColor),
+          home: HomeScreen(),
+        ),
       ),
     );
   }

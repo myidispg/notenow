@@ -15,8 +15,8 @@ class DatabaseHelper {
   late Database _database;
 
   Future<void> initDatabase() async {
-    String? databasesPath = await getDatabasesPath();
-    String path = join(databasesPath!, kDatabaseName);
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, kDatabaseName);
 
     _database = await openDatabase(path, version: _databaseVersion,
         onCreate: (Database db, int version) async {
@@ -59,8 +59,8 @@ class DatabaseHelper {
 
   Future<void> deleteNotesDatabase() async {
     // Remove the database and all the entries
-    String? databasesPath = await getDatabasesPath();
-    String path = join(databasesPath!, kDatabaseName);
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, kDatabaseName);
 
     await deleteDatabase(path);
   }

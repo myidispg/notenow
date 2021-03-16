@@ -205,13 +205,13 @@ class _BottomNoteOptionsState extends State<BottomNoteOptions> {
                   });
             },
           ),
-          IconButton(
-            icon: Icon(Icons.notifications_active_outlined),
-            iconSize: 28,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          // IconButton(
+          //   icon: Icon(Icons.notifications_active_outlined),
+          //   iconSize: 28,
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
           IconButton(
             icon: Icon(Icons.delete_outline),
             iconSize: 28,
@@ -223,7 +223,14 @@ class _BottomNoteOptionsState extends State<BottomNoteOptions> {
             icon: Icon(Icons.share_outlined),
             iconSize: 28,
             onPressed: () {
-              Share.share(widget.note.noteContent);
+              if (widget.note.noteContent.isEmpty)
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("There is no content in the note to share."),
+                  ),
+                );
+              else
+                Share.share(widget.note.noteContent);
               // Navigator.pop(context);
             },
           ),

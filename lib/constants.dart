@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const kSurfaceColor = Color(0xFF1F1F1F);
+const kSurfaceColorDark = Color(0xFF1F1F1F);
 const kPurpleColor = Color(0xFFC38FFF);
 
 const kDarkThemeBackgroundColor = Color(0xFF2E2E2E);
@@ -11,11 +11,8 @@ const kDarkThemeWhiteGrey = Colors.white60;
 
 const kIconSize = 30.0;
 
-const kNoteBoxNoteStyle = TextStyle(
-    color: Colors.white,
-    fontSize: 18.0,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 1.1);
+const kNoteBoxNoteStyle =
+    TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500, letterSpacing: 1.1);
 
 const Map<int, Color> kLabelToColor = {
   0: Colors.lightBlueAccent,
@@ -37,7 +34,9 @@ final String kLabelDocumentField = 'label';
 
 // Shared Preferences
 final String kEmailKeySharedPreferences = 'userEmail';
+final String kThemeKeySharedPreferences = 'appTheme';
 
+// SQLite Database
 final String kDatabaseName = 'notesDatabase.db';
 final String kTableNotes = "notes";
 final String kColumnId = "id";

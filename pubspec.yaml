@@ -36,7 +36,7 @@ dependencies:
   # Functionality
   url_launcher: ^6.0.2
   provider: ^5.0.0
-  share: ^2.0.0
+  share: ^2.0.1
   uuid: ^3.0.1
 
   # Local storage
