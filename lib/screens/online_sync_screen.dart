@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/app_state/app_state.dart';
 import 'package:notes_app/constants.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnlineSyncScreen extends StatefulWidget {
@@ -62,8 +64,8 @@ class _OnlineSyncScreenState extends State<OnlineSyncScreen> {
     CollectionReference old =
         FirebaseFirestore.instance.collection(kDefaultEmail);
 
-    CollectionReference notes =
-        FirebaseFirestore.instance.collection(prefs.getString('userEmail')!);
+    CollectionReference notes = FirebaseFirestore.instance
+        .collection(prefs.getString(kEmailKeySharedPreferences)!);
 
     old.get().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((oldDoc) {
@@ -72,6 +74,8 @@ class _OnlineSyncScreenState extends State<OnlineSyncScreen> {
         oldDoc.reference.delete();
       });
     });
+
+    FirebaseFirestore.instance.enableNetwork();
   }
 
   @override
@@ -112,7 +116,8 @@ class _OnlineSyncScreenState extends State<OnlineSyncScreen> {
                         kInputFieldDecoration.copyWith(labelText: "Email"),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      value = value!.toLowerCase().trim();
+                      if (value.isEmpty) {
                         return "Please enter your email id.";
                       }
                       if (value == kDefaultEmail) {
@@ -156,7 +161,11 @@ class _OnlineSyncScreenState extends State<OnlineSyncScreen> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         print("Valid data entered for login.");
-                        loginUser().then((value) {
+                        Provider.of<AppState>(context, listen: false)
+                            .loginUser(
+                                email: emailController.text,
+                                password: passwordController.text)
+                            .then((value) {
                           if (value == kLoginCodesEnum.unknownError) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text("An unknown error occurred.")));

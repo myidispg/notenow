@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:notes_app/app_state/app_state.dart';
 import 'package:notes_app/constants.dart';
-import 'package:notes_app/models/notes.dart';
 import 'package:notes_app/screens/note_screen.dart';
 import 'package:notes_app/widgets/floating_search_bar.dart';
 import 'package:notes_app/widgets/home_nav_drawer.dart';
@@ -17,18 +17,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   if (!_isDataInitialized) {
-  //     // Provider.of<NotesModel>(context).buildDummyData();
-  //     _isDataInitialized = true;
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // initNotes(context);
     return Scaffold(
       key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
@@ -64,16 +54,16 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 10,
             ),
             Expanded(
-              child: Provider.of<NotesModel>(context).notesCount != 0
-                  ? Consumer<NotesModel>(
-                      builder: (context, notes, child) {
+              child: Provider.of<AppState>(context).notesModel.notesCount != 0
+                  ? Consumer<AppState>(
+                      builder: (context, appState, child) {
                         return StaggeredGridView.countBuilder(
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 12,
                           padding:
                               EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                           crossAxisCount: 4,
-                          itemCount: notes.notesCount,
+                          itemCount: appState.notesModel.notesCount,
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) =>
                               Hero(
@@ -89,13 +79,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               },
                               child: NoteBox(
-                                title:
-                                    notes.getNote(index).noteTitle!.isNotEmpty
-                                        ? notes.getNote(index).noteTitle
-                                        : "Note",
-                                text: notes.getNote(index).noteContent,
-                                labelColor: kLabelToColor[
-                                    notes.getNote(index).noteLabel],
+                                title: appState.notesModel
+                                            .getNote(index)
+                                            .noteTitle !=
+                                        null
+                                    ? appState.notesModel
+                                        .getNote(index)
+                                        .noteTitle
+                                    : "Note",
+                                text: appState.notesModel
+                                    .getNote(index)
+                                    .noteContent,
+                                labelColor: kLabelToColor[appState.notesModel
+                                    .getNote(index)
+                                    .noteLabel],
                               ),
                             ),
                           ),

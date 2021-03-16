@@ -41,6 +41,8 @@ dependencies:
 
   # Local storage
   shared_preferences: ^2.0.4
+  sqflite: ^2.0.0+2
+  path_provider: ^2.0.1
 
   # Cloud Sync
   firebase_core: ^1.0.1

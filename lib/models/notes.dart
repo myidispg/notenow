@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
-import 'package:notes_app/constants.dart';
 import 'package:notes_app/models/note.dart';
 
-class NotesModel extends ChangeNotifier {
+class NotesModel {
   List<NoteModel> _notes = [];
-  String userEmail = kDefaultEmail;
 
   int get notesCount => _notes.length;
 
@@ -16,11 +13,10 @@ class NotesModel extends ChangeNotifier {
         element.noteContent == note.noteContent &&
         element.noteLabel == element.noteLabel);
     _notes.remove(toRemove);
-    notifyListeners();
   }
 
-  void saveNote(NoteModel note, [int editIndex = -1]) {
-    if (editIndex != -1) {
+  void saveNote(NoteModel note, [int? editIndex]) {
+    if (editIndex != null) {
       // The note is being edited and not created.
       _notes[editIndex].noteTitle = note.noteTitle;
       _notes[editIndex].noteContent = note.noteContent;
@@ -28,7 +24,6 @@ class NotesModel extends ChangeNotifier {
     } else {
       _notes.add(note);
     }
-    notifyListeners();
   }
 
   List<int> searchNotes(String searchQuery) {
