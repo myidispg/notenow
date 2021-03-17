@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/app_state/app_state.dart';
 import 'package:notes_app/constants.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class NoteWritingSection extends StatefulWidget {
@@ -33,14 +35,18 @@ class _NoteWritingSectionState extends State<NoteWritingSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 1,
-      borderRadius: BorderRadius.circular(6),
-      child: Container(
+    return Consumer<AppState>(
+      builder: (context, appState, child) => Container(
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         decoration: BoxDecoration(
-          // border: Border.all(color: Colors.grey, width: 0.5),
-          color: kNoteBackgroundColor,
+          border: Border.all(
+              color: appState.isDarkTheme
+                  ? kLightThemeBackgroundColor
+                  : kDarkThemeBackgroundColor,
+              width: 0.2),
+          // color: Provider.of<AppState>(context).isDarkTheme
+          //     ? kDarkThemeBackgroundColor
+          //     : kLightThemeBackgroundColor,
           borderRadius: BorderRadius.circular(6),
         ),
         child: Column(
@@ -49,20 +55,32 @@ class _NoteWritingSectionState extends State<NoteWritingSection> {
               controller: _titleController,
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
+                  borderSide: BorderSide(
+                    color: appState.isDarkTheme
+                        ? kLightThemeBackgroundColor
+                        : kDarkThemeBackgroundColor,
+                  ),
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
+                  borderSide: BorderSide(
+                    color: appState.isDarkTheme
+                        ? kLightThemeBackgroundColor
+                        : kDarkThemeBackgroundColor,
+                  ),
                 ),
                 border: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
+                  borderSide: BorderSide(
+                    color: appState.isDarkTheme
+                        ? kLightThemeBackgroundColor
+                        : kDarkThemeBackgroundColor,
+                  ),
                 ),
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                 hintText: "Title",
                 hintStyle: TextStyle(fontSize: 24),
               ),
-              style: TextStyle(color: Colors.white, fontSize: 24),
+              style: TextStyle(fontSize: 24),
               keyboardType: TextInputType.name,
               onChanged: (value) {
                 widget.editNoteTitleCallback(value);

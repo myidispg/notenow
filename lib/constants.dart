@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 const kSurfaceColorDark = Color(0xFF1F1F1F);
-const kPurpleColor = Color(0xFFC38FFF);
+const kPurpleColor = Color(0xFFBB86FC);
 
 const kDarkThemeBackgroundColor = Color(0xFF2E2E2E);
+const kLightThemeBackgroundColor = Color(0xFFFAFAFA);
 const kNoteBackgroundColor = Color(0xFF353535);
+
+const kPurpleButtonColor = Color(0xFF5C49E0);
 
 const kGreyTextColor = Color(0xFF817F80);
 const kDarkThemeWhiteGrey = Colors.white60;
@@ -46,19 +49,18 @@ final String kColumnLabel = 'label';
 
 const kInputFieldDecoration = InputDecoration(
   labelText: "Email",
-  labelStyle: TextStyle(
-      color: Colors.white70, fontSize: 18, fontWeight: FontWeight.w600),
   // errorText: "Some error occurred",
   errorStyle: TextStyle(fontSize: 14, color: Colors.red),
   errorBorder:
       OutlineInputBorder(borderSide: BorderSide(color: Colors.redAccent)),
-  enabledBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
   focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(color: kPurpleColor), gapPadding: 4),
   focusedErrorBorder: OutlineInputBorder(
     borderSide: BorderSide(color: Colors.redAccent),
   ),
 );
+
+const kCapitalTextsTextStyle =
+    TextStyle(fontSize: 30, fontWeight: FontWeight.w800, letterSpacing: 1.1);
 
 enum kLoginCodesEnum { wrong_password, weak_password, successful, unknownError }

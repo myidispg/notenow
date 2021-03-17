@@ -71,75 +71,89 @@ class _NoteScreenState extends State<NoteScreen> {
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: kDarkThemeBackgroundColor,
-        title: Text("Your note"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.check),
-            onPressed: () {
-              // Every new note must have some content.
-              if (_note.noteContent != "") {
-                Provider.of<AppState>(context, listen: false)
-                    .saveNote(_note, widget.noteIndex);
-                Navigator.pop(context);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("Please enter some content for the note."),
-                  ),
-                );
-              }
-            },
-          )
-        ],
-      ),
-      body: Hero(
-        tag: widget.noteIndex != null
-            ? 'note_box_${widget.noteIndex}'
-            : 'note_box',
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: deviceHeight -
-                    (MediaQuery.of(context).padding.top + kToolbarHeight),
+    return Consumer<AppState>(
+      builder: (context, appState, child) => Scaffold(
+        appBar: AppBar(
+          leading: BackButton(
+            color: appState.isDarkTheme
+                ? kLightThemeBackgroundColor
+                : kDarkThemeBackgroundColor,
+          ),
+          elevation: 0.0,
+          title: Text(
+            "Your note",
+            style: TextStyle(
+                color: appState.isDarkTheme
+                    ? kLightThemeBackgroundColor
+                    : kDarkThemeBackgroundColor),
+          ),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.check,
+                color: appState.isDarkTheme
+                    ? kLightThemeBackgroundColor
+                    : kDarkThemeBackgroundColor,
               ),
-              child: IntrinsicHeight(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: deviceHeight * 0.02,
-                            vertical: deviceWidth * 0.015),
-                        child: NoteWritingSection(
-                          startingTitle: _note.noteTitle,
-                          startingContent: _note.noteContent,
-                          editNoteTitleCallback: editNoteTitle,
-                          editNoteContentCallback: editNoteContent,
+              onPressed: () {
+                // Every new note must have some content.
+                if (_note.noteContent != "") {
+                  appState.saveNote(_note, widget.noteIndex);
+                  Navigator.pop(context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Please enter some content for the note."),
+                    ),
+                  );
+                }
+              },
+            )
+          ],
+        ),
+        body: Hero(
+          tag: widget.noteIndex != null
+              ? 'note_box_${widget.noteIndex}'
+              : 'note_box',
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: deviceHeight -
+                      (MediaQuery.of(context).padding.top + kToolbarHeight),
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: deviceHeight * 0.01,
+                              vertical: deviceWidth * 0.015),
+                          child: NoteWritingSection(
+                            startingTitle: _note.noteTitle,
+                            startingContent: _note.noteContent,
+                            editNoteTitleCallback: editNoteTitle,
+                            editNoteContentCallback: editNoteContent,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    BottomNoteOptions(
-                      deviceHeight: deviceHeight,
-                      deviceWidth: deviceWidth,
-                      note: _note,
-                      deleteNoteCallback: () async {
-                        if (widget.noteIndex != null)
-                          Provider.of<AppState>(context, listen: false)
-                              .deleteNote(_note);
-                        // deleteNoteFirestore();
-                        Navigator.pop(context);
-                      },
-                    )
-                  ],
+                      SizedBox(
+                        height: 4,
+                      ),
+                      BottomNoteOptions(
+                        deviceHeight: deviceHeight,
+                        deviceWidth: deviceWidth,
+                        note: _note,
+                        deleteNoteCallback: () async {
+                          if (widget.noteIndex != null)
+                            appState.deleteNote(_note);
+                          Navigator.pop(context);
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -183,7 +197,6 @@ class _BottomNoteOptionsState extends State<BottomNoteOptions> {
   Widget build(BuildContext context) {
     return Container(
       height: widget.deviceHeight * 0.09,
-      color: kNoteBackgroundColor.withOpacity(0.8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

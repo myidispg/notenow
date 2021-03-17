@@ -27,11 +27,11 @@ class MyApp extends StatelessWidget {
       child: Builder(
         builder: (BuildContext context) => MaterialApp(
           theme: Provider.of<AppState>(context).isDarkTheme
-              ? ThemeData.dark()
-                  .copyWith(accentColor: kDarkThemeBackgroundColor)
-              : ThemeData.light(),
-          // theme:
-          //     ThemeData.dark().copyWith(accentColor: kDarkThemeBackgroundColor),
+              ? ThemeData.dark().copyWith(
+                  primaryColor: kDarkThemeBackgroundColor,
+                )
+              : ThemeData.light()
+                  .copyWith(primaryColor: kLightThemeBackgroundColor),
           home: HomeScreen(),
         ),
       ),

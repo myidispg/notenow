@@ -15,14 +15,15 @@ class FloatingSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 10,
+      elevation: 6,
       borderRadius: BorderRadius.circular(6),
       child: Consumer<AppState>(
           builder: (context, appState, child) => Container(
                 height: 50.0,
                 decoration: BoxDecoration(
-                  color:
-                      appState.isDarkTheme ? kSurfaceColorDark : Colors.white,
+                  color: appState.isDarkTheme
+                      ? kSurfaceColorDark.withOpacity(0.73)
+                      : Colors.white,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Padding(
@@ -59,7 +60,7 @@ class FloatingSearchBar extends StatelessWidget {
                             ),
                           );
                         },
-                        child: Icon(Icons.account_circle_sharp,
+                        child: Icon(Icons.cloud_upload_rounded,
                             color: kPurpleColor, size: kIconSize),
                       )
                     ],
