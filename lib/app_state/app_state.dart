@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppState extends ChangeNotifier {
   String userEmail = kDefaultEmail;
-  late final FirebaseApp _initialization;
   late CollectionReference notesCollection;
   // This flag depends upon whether online sync is enabled or not. If not enabled,
   // data is only written to the offline storage. If enables, then data is
@@ -23,7 +22,7 @@ class AppState extends ChangeNotifier {
   bool isDarkTheme = true;
 
   Future<void> initialization() async {
-    _initialization = await Firebase.initializeApp();
+    await Firebase.initializeApp();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (prefs.getBool(kThemeKeySharedPreferences) == null) {

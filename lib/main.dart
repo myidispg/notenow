@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/app_state/app_state.dart';
 import 'package:notes_app/constants.dart';
-import 'package:notes_app/models/notes.dart';
 import 'package:notes_app/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
-late NotesModel notesModel;
 late AppState appState;
 
 main() {

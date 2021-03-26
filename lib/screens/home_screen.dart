@@ -9,12 +9,7 @@ import 'package:notes_app/widgets/home_nav_drawer.dart';
 import 'package:notes_app/widgets/note_box.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -25,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Icon(
           Icons.add,
         ),
-        backgroundColor: Color(0xffBB86FC),
+        backgroundColor: kPurpleColor,
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(

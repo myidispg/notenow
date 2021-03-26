@@ -8,10 +8,7 @@ class NotesModel {
   NoteModel getNote(int index) => _notes[index];
 
   void deleteNote({required NoteModel note}) {
-    NoteModel toRemove = _notes.firstWhere((element) =>
-        element.noteTitle == note.noteTitle &&
-        element.noteContent == note.noteContent &&
-        element.noteLabel == element.noteLabel);
+    NoteModel toRemove = _notes.firstWhere((element) => element.id == note.id);
     _notes.remove(toRemove);
   }
 

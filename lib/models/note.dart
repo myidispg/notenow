@@ -21,7 +21,6 @@ class NoteModel {
   }
 
   // DATABASE HELPERS
-
   Map<String, dynamic?> toMap() {
     var map = <String, dynamic>{
       kColumnId: id,
