@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/constants.dart';
 
-// ignore: must_be_immutable
-class LabelSelectorDialog extends StatefulWidget {
+class LabelSelectorDialog extends StatelessWidget {
   final double deviceWidth;
   int selectedLabel;
   final Function changeLabelCallback;
@@ -12,12 +11,6 @@ class LabelSelectorDialog extends StatefulWidget {
       required this.deviceWidth,
       required this.changeLabelCallback});
 
-  @override
-  _LabelSelectorDialogState createState() => _LabelSelectorDialogState();
-}
-
-class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
-  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
@@ -33,22 +26,22 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ColoredLabelWidget(
-                callbackFunction: widget.changeLabelCallback,
+                callbackFunction: changeLabelCallback,
                 labelCallbackIndex: 0,
-                labelColor: Colors.lightBlueAccent,
-                showBorder: widget.selectedLabel == 0 ? true : false,
+                labelColor: kLabelToColor[0]!,
+                showBorder: selectedLabel == 0 ? true : false,
               ),
               ColoredLabelWidget(
-                callbackFunction: widget.changeLabelCallback,
+                callbackFunction: changeLabelCallback,
                 labelCallbackIndex: 1,
-                labelColor: Colors.redAccent,
-                showBorder: widget.selectedLabel == 1 ? true : false,
+                labelColor: kLabelToColor[1]!,
+                showBorder: selectedLabel == 1 ? true : false,
               ),
               ColoredLabelWidget(
-                callbackFunction: widget.changeLabelCallback,
+                callbackFunction: changeLabelCallback,
                 labelCallbackIndex: 2,
-                labelColor: Colors.purpleAccent,
-                showBorder: widget.selectedLabel == 2 ? true : false,
+                labelColor: kLabelToColor[2]!,
+                showBorder: selectedLabel == 2 ? true : false,
               ),
             ],
           ),
@@ -59,22 +52,22 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ColoredLabelWidget(
-                callbackFunction: widget.changeLabelCallback,
+                callbackFunction: changeLabelCallback,
                 labelCallbackIndex: 3,
-                labelColor: Colors.greenAccent,
-                showBorder: widget.selectedLabel == 3 ? true : false,
+                labelColor: kLabelToColor[3]!,
+                showBorder: selectedLabel == 3 ? true : false,
               ),
               ColoredLabelWidget(
-                callbackFunction: widget.changeLabelCallback,
+                callbackFunction: changeLabelCallback,
                 labelCallbackIndex: 4,
-                labelColor: Colors.yellowAccent,
-                showBorder: widget.selectedLabel == 4 ? true : false,
+                labelColor: kLabelToColor[4]!,
+                showBorder: selectedLabel == 4 ? true : false,
               ),
               ColoredLabelWidget(
-                callbackFunction: widget.changeLabelCallback,
+                callbackFunction: changeLabelCallback,
                 labelCallbackIndex: 5,
-                labelColor: Colors.blueAccent,
-                showBorder: widget.selectedLabel == 5 ? true : false,
+                labelColor: kLabelToColor[5]!,
+                showBorder: selectedLabel == 5 ? true : false,
               ),
             ],
           ),
@@ -85,22 +78,22 @@ class _LabelSelectorDialogState extends State<LabelSelectorDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ColoredLabelWidget(
-                callbackFunction: widget.changeLabelCallback,
+                callbackFunction: changeLabelCallback,
                 labelCallbackIndex: 6,
-                labelColor: Colors.orangeAccent,
-                showBorder: widget.selectedLabel == 6 ? true : false,
+                labelColor: kLabelToColor[6]!,
+                showBorder: selectedLabel == 6 ? true : false,
               ),
               ColoredLabelWidget(
-                callbackFunction: widget.changeLabelCallback,
+                callbackFunction: changeLabelCallback,
                 labelCallbackIndex: 7,
-                labelColor: Colors.pinkAccent,
-                showBorder: widget.selectedLabel == 7 ? true : false,
+                labelColor: kLabelToColor[7]!,
+                showBorder: selectedLabel == 7 ? true : false,
               ),
               ColoredLabelWidget(
-                callbackFunction: widget.changeLabelCallback,
+                callbackFunction: changeLabelCallback,
                 labelCallbackIndex: 8,
-                labelColor: Colors.tealAccent,
-                showBorder: widget.selectedLabel == 8 ? true : false,
+                labelColor: kLabelToColor[8]!,
+                showBorder: selectedLabel == 8 ? true : false,
               ),
             ],
           )
@@ -127,9 +120,7 @@ class ColoredLabelWidget extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
-        print("Clicked ${this.labelColor.toString()}");
         callbackFunction(labelCallbackIndex);
-        // widget.changeLabelCallback(0);
         Navigator.pop(context);
       },
       child: Container(

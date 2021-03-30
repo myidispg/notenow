@@ -44,9 +44,6 @@ class _NoteWritingSectionState extends State<NoteWritingSection> {
                   ? kLightThemeBackgroundColor
                   : kDarkThemeBackgroundColor,
               width: 0.2),
-          // color: Provider.of<AppState>(context).isDarkTheme
-          //     ? kDarkThemeBackgroundColor
-          //     : kLightThemeBackgroundColor,
           borderRadius: BorderRadius.circular(6),
         ),
         child: Column(

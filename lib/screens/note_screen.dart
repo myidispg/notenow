@@ -20,38 +20,35 @@ class NoteScreen extends StatefulWidget {
 
 class _NoteScreenState extends State<NoteScreen> {
   late NoteModel _note;
-  bool _isNoteInitialized = false;
+  // bool _isNoteInitialized = false;
 
   @override
-  void didChangeDependencies() async {
+  void didChangeDependencies() {
     super.didChangeDependencies();
-    if (!this._isNoteInitialized) {
-      if (widget.noteIndex != null) {
-        _note = NoteModel(
-            noteTitle: Provider.of<AppState>(context)
-                .notesModel
-                .getNote(widget.noteIndex!)
-                .noteTitle,
-            noteContent: Provider.of<AppState>(context)
-                .notesModel
-                .getNote(widget.noteIndex!)
-                .noteContent,
-            noteLabel: Provider.of<AppState>(context)
-                .notesModel
-                .getNote(widget.noteIndex!)
-                .noteLabel,
-            id: Provider.of<AppState>(context)
-                .notesModel
-                .getNote(widget.noteIndex!)
-                .id);
-      } else {
-        _note = NoteModel(noteContent: "");
-      }
-      // _note = widget.noteIndex != null
-      //     ? Provider.of<AppState>(context).notesModel.getNote(widget.noteIndex!)
-      //     : NoteModel(noteContent: "");
-      this._isNoteInitialized = true;
+    // if (!this._isNoteInitialized) {
+    if (widget.noteIndex != null) {
+      _note = NoteModel(
+          noteTitle: Provider.of<AppState>(context)
+              .notesModel
+              .getNote(widget.noteIndex!)
+              .noteTitle,
+          noteContent: Provider.of<AppState>(context)
+              .notesModel
+              .getNote(widget.noteIndex!)
+              .noteContent,
+          noteLabel: Provider.of<AppState>(context)
+              .notesModel
+              .getNote(widget.noteIndex!)
+              .noteLabel,
+          id: Provider.of<AppState>(context)
+              .notesModel
+              .getNote(widget.noteIndex!)
+              .id);
+    } else {
+      _note = NoteModel(noteContent: "");
     }
+    //   this._isNoteInitialized = true;
+    // }
   }
 
   void editNoteTitle(String newTitle) {
@@ -146,7 +143,7 @@ class _NoteScreenState extends State<NoteScreen> {
                         deviceHeight: deviceHeight,
                         deviceWidth: deviceWidth,
                         note: _note,
-                        deleteNoteCallback: () async {
+                        deleteNoteCallback: () {
                           if (widget.noteIndex != null)
                             appState.deleteNote(_note);
                           Navigator.pop(context);
@@ -218,13 +215,6 @@ class _BottomNoteOptionsState extends State<BottomNoteOptions> {
                   });
             },
           ),
-          // IconButton(
-          //   icon: Icon(Icons.notifications_active_outlined),
-          //   iconSize: 28,
-          //   onPressed: () {
-          //     Navigator.pop(context);
-          //   },
-          // ),
           IconButton(
             icon: Icon(Icons.delete_outline),
             iconSize: 28,
