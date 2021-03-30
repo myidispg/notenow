@@ -87,7 +87,9 @@ class NoteSearchClass extends SearchDelegate {
                 title: appState.notesModel
                     .getNote(relevantIndexes[index])
                     .noteTitle,
-                text: appState.notesModel.getNote(index).noteContent,
+                text: appState.notesModel
+                    .getNote(relevantIndexes[index])
+                    .noteContent,
                 labelColor: kLabelToColor[appState.notesModel
                     .getNote(relevantIndexes[index])
                     .noteLabel],

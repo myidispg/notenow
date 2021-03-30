@@ -31,7 +31,8 @@ class AppState extends ChangeNotifier {
     } else {
       isDarkTheme = prefs.getBool(kThemeKeySharedPreferences)!;
     }
-    print('Preferences: ${prefs.getBool(kThemeKeySharedPreferences)}');
+    print(
+        'Dark Mode Preferences: ${prefs.getBool(kThemeKeySharedPreferences)}');
     FirebaseAuth auth = FirebaseAuth.instance;
     if (auth.currentUser != null) {
       // There is a registered user.
