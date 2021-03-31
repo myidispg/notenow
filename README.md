@@ -14,3 +14,6 @@ Flutter app for taking notes. A watered down version of Google Keep!
 
 ## Demoing the search functionality
 ![Android Emulator - Pixel_3a_XL_API_30_Android_R_5554 2021-03-31 15-53-56](https://user-images.githubusercontent.com/36075176/113130422-af7e1900-9239-11eb-8fa5-c4f53922abc9.gif)
+
+## Theme Switching
+![Theme](https://user-images.githubusercontent.com/36075176/113131271-a04b9b00-923a-11eb-9350-3d26d805ba99.gif)
